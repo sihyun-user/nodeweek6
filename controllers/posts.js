@@ -1,26 +1,25 @@
-const Posts = require('../models/postsModel');
 const errorMsg = require('../service/errorMsg');
 const responseHandler = require('../service/responseHandler');
+const Post = require('../models/postsModel');
+const User = require('../models/usersModel');
 
 const posts = {
   async getPosts(req, res) {
-    /**
-     * #swagger.tags = ['Posts - 貼文']
-     */
-    const allPosts = await Posts.find();
+    // 貼文關鍵字搜尋與篩選
+    const timeSort = req.query.timeSort == 'asc' ? 'createdAt' : '-createdAt';
+    const q = req.query.q !== undefined ? {'content': new RegExp(req.query.q)} : {};
+    const allPosts = await Post.find(q).populate({
+      path: 'user',
+      select: 'name photo'
+    }).sort(timeSort);
     responseHandler.handleSuccess(res, allPosts);
   },
   async createPosts(req, res) {
-    /**
-     * #swagger.tags = ['Posts - 貼文']
-     */
     try {
-      const { name, content } = req.body;
+      const { user, content } = req.body;
   
-      if (!name || !content) throw error;
-  
-      const newPost = await Posts.create({
-        name: name,
+      const newPost = await Post.create({
+        user: user,
         content : content
       });
     
@@ -30,19 +29,19 @@ const posts = {
     };
   },
   async deleteAllPosts(req, res) {
-    await Posts.deleteMany();
+    await Post.deleteMany();
     responseHandler.handleSuccess(res, []);
   },
   async deleteOnePosts(req, res) {
     try {
       const id = req.params.id;
-      const postData = await Posts.find({'_id': id});
+      const postData = await Post.find({'_id': id});
 
       if(postData.length == 0) throw error; 
 
-      await Posts.findByIdAndDelete(id);
+      await Post.findByIdAndDelete(id);
 
-      allPosts = await Posts.find();
+      allPosts = await Post.find();
 
       responseHandler.handleSuccess(res, allPosts);
     } catch (error) {
@@ -54,11 +53,11 @@ const posts = {
       const id = req.params.id;
       const { name, content } = req.body;
 
-      const postData = await Posts.find({'_id': id});
+      const postData = await Post.find({'_id': id});
 
-      if(!name || !content || postData.length == 0 ) throw error;
+      if(postData.length == 0 ) throw error;
 
-      const updateData = await Posts.findByIdAndUpdate(id, {
+      const updateData = await Post.findByIdAndUpdate(id, {
         name: name,
         content: content,
       },{new: true});

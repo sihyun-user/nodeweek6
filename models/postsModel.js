@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, '貼文姓名未填寫']
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'user', // (指向 user model) 引用 user collection (用 ObjectId 撈取 user ollection 的資料)
+      required: [true, '貼文 ID 未填寫']
     },
     content: {
       type: String,
@@ -20,7 +21,7 @@ const postSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
       select: false // 不要在前台顯示
     }
   },
