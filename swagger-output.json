@@ -17,7 +17,7 @@
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "取得全部貼文 API",
+        "description": "取得貼文 API",
         "parameters": [
           {
             "name": "timeSort",
@@ -34,57 +34,7 @@
           "200": {
             "description": "貼文資訊",
             "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "type": "string",
-                        "example": "627b71adbd87b7922f3688c7"
-                      },
-                      "user": {
-                        "type": "object",
-                        "properties": {
-                          "_id": {
-                            "type": "string",
-                            "example": "62787493c586f2cd6a79da0e"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Ada"
-                          },
-                          "photo": {
-                            "type": "string",
-                            "example": "https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg"
-                          }
-                        }
-                      },
-                      "content": {
-                        "type": "string",
-                        "example": "測試 ref 關聯資料 4"
-                      },
-                      "image": {
-                        "type": "string",
-                        "example": ""
-                      },
-                      "likes": {
-                        "type": "number",
-                        "example": 0
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/getPosts"
             }
           }
         }
@@ -93,34 +43,73 @@
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "取得全部貼文 API",
+        "description": "建立貼文 API",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "資料格式",
             "schema": {
               "type": "object",
               "properties": {
                 "user": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "6277c7231f5cea212fc08c8a"
                 },
                 "content": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "貼文內容"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "圖片網址"
                 }
-              }
-            },
-            "description": "資料格式"
+              },
+              "required": [
+                "user",
+                "content"
+              ]
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "$ref": "#/definitions/createPosts"
+            }
+          }
+        }
       },
       "delete": {
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "",
+        "description": "刪除全部貼文 API",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     },
     "/posts/{id}": {
@@ -128,7 +117,7 @@
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "",
+        "description": "刪除單則貼文 API",
         "parameters": [
           {
             "name": "id",
@@ -137,13 +126,20 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "$ref": "#/definitions/deleteOnePosts"
+            }
+          }
+        }
       },
       "patch": {
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "",
+        "description": "更新單則貼文 API",
         "parameters": [
           {
             "name": "id",
@@ -154,20 +150,188 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "資料格式",
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "example": "any"
-                },
                 "content": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "貼文內容"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "圖片網址"
                 }
-              }
+              },
+              "required": [
+                "content"
+              ]
             }
           }
         ],
         "responses": {}
+      }
+    }
+  },
+  "definitions": {
+    "getPosts": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "627bbdb68f689a16b42ca602"
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "6277c7231f5cea212fc08c8a"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "example": "頭貼網址"
+                  }
+                }
+              },
+              "content": {
+                "type": "string",
+                "example": "貼文內容"
+              },
+              "image": {
+                "type": "string",
+                "example": "圖片網址"
+              },
+              "likes": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "createPosts": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "627bcc153ef5abfd5c800b5f"
+            },
+            "user": {
+              "type": "string",
+              "example": "6277c7231f5cea212fc08c8a"
+            },
+            "content": {
+              "type": "string",
+              "example": "貼文內容"
+            },
+            "image": {
+              "type": "string",
+              "example": "圖片網址"
+            },
+            "likes": {
+              "type": "number",
+              "example": 0
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-05-11T14:45:41.770Z"
+            }
+          }
+        }
+      }
+    },
+    "deleteOnePosts": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "627bcc153ef5abfd5c800b5f"
+              },
+              "user": {
+                "type": "string",
+                "example": "6277c7231f5cea212fc08c8a"
+              },
+              "content": {
+                "type": "string",
+                "example": "貼文內容"
+              },
+              "image": {
+                "type": "string",
+                "example": "圖片網址"
+              },
+              "likes": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "updatePosts": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "627bcc153ef5abfd5c800b5f"
+            },
+            "user": {
+              "type": "string",
+              "example": "6277c7231f5cea212fc08c8a"
+            },
+            "content": {
+              "type": "string",
+              "example": "貼文內容"
+            },
+            "image": {
+              "type": "string",
+              "example": "圖片網址"
+            },
+            "likes": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        }
       }
     }
   }
