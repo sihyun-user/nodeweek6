@@ -17,7 +17,7 @@
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "",
+        "description": "取得全部貼文 API",
         "parameters": [
           {
             "name": "timeSort",
@@ -30,13 +30,70 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "627b71adbd87b7922f3688c7"
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "62787493c586f2cd6a79da0e"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Ada"
+                          },
+                          "photo": {
+                            "type": "string",
+                            "example": "https://thumb.fakeface.rest/thumb_female_27_5a94a297efb15caf0e3d769ce1694953e8bf33e2.jpg"
+                          }
+                        }
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "測試 ref 關聯資料 4"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "likes": {
+                        "type": "number",
+                        "example": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       },
       "post": {
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "",
+        "description": "取得全部貼文 API",
         "parameters": [
           {
             "name": "body",
@@ -51,7 +108,8 @@
                   "example": "any"
                 }
               }
-            }
+            },
+            "description": "資料格式"
           }
         ],
         "responses": {}
@@ -68,7 +126,7 @@
     "/posts/{id}": {
       "delete": {
         "tags": [
-          "Posts"
+          "Posts - 貼文"
         ],
         "description": "",
         "parameters": [
@@ -83,7 +141,7 @@
       },
       "patch": {
         "tags": [
-          "Posts"
+          "Posts - 貼文"
         ],
         "description": "",
         "parameters": [
