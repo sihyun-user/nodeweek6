@@ -8,7 +8,7 @@ const handleSuccess = (res, data) => {
 };
 
 const handleError = (res, message = errorMsg.DEFAULT) => {
-  res.status(404).send({
+  res.status(400).send({
     status: false,
     message
   });

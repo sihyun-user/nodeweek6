@@ -17,7 +17,7 @@
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "取得貼文 API",
+        "description": "取得全部貼文 API",
         "parameters": [
           {
             "name": "timeSort",
@@ -79,6 +79,25 @@
             "schema": {
               "$ref": "#/definitions/createPosts"
             }
+          },
+          "400": {
+            "description": "錯誤資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "欄位未填寫正確"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
@@ -132,6 +151,25 @@
             "schema": {
               "$ref": "#/definitions/deleteOnePosts"
             }
+          },
+          "400": {
+            "description": "錯誤資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除失敗，欄位未填寫正確，或無此ID"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
@@ -170,7 +208,141 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "$ref": "#/definitions/updatePosts"
+            }
+          },
+          "400": {
+            "description": "錯誤資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "欄位未填寫正確，或無此ID"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "tags": [
+          "Users - 用戶(API測試用)"
+        ],
+        "description": "取得全部用戶 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "用戶資訊",
+            "schema": {
+              "$ref": "#/definitions/getUsers"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users - 用戶(API測試用)"
+        ],
+        "description": "建立用戶 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "用戶名稱"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test@gmail.com"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "required": [
+                "name",
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用戶資訊",
+            "schema": {
+              "$ref": "#/definitions/createUsers"
+            }
+          },
+          "400": {
+            "description": "錯誤資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "欄位未填寫正確"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users - 用戶(API測試用)"
+        ],
+        "description": "刪除全部用戶 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "用戶資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -329,6 +501,65 @@
             "likes": {
               "type": "number",
               "example": 0
+            }
+          }
+        }
+      }
+    },
+    "getUsers": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6277c7231f5cea212fc08c8a"
+              },
+              "name": {
+                "type": "string",
+                "example": "用戶名稱"
+              },
+              "photo": {
+                "type": "string",
+                "example": "頭貼網址"
+              }
+            }
+          }
+        }
+      }
+    },
+    "createUsers": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "6277c7231f5cea212fc08c8a"
+            },
+            "name": {
+              "type": "string",
+              "example": "用戶名稱"
+            },
+            "email": {
+              "type": "string",
+              "example": "test@gmail.com"
+            },
+            "photo": {
+              "type": "string",
+              "example": "頭貼網址"
             }
           }
         }

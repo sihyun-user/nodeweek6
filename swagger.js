@@ -54,6 +54,25 @@ const doc = {
         image: '圖片網址',
         likes: 0,
       }
+    },
+    getUsers: {
+      status: true,
+      data: [
+        {
+          _id: '6277c7231f5cea212fc08c8a',
+          name: '用戶名稱',
+          photo: '頭貼網址',
+        }
+      ]
+    },
+    createUsers: {
+      status: true,
+      data: {
+        _id: '6277c7231f5cea212fc08c8a',
+        name: '用戶名稱',
+        email: 'test@gmail.com',
+        photo: '頭貼網址',
+      }
     }
   }
 };
