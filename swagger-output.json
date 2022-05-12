@@ -5,7 +5,7 @@
     "description": "範例生成文件",
     "version": "1.0.0"
   },
-  "host": "heroku:fast-mountain-34375.herokuapp.com",
+  "host": "fast-mountain-34375.herokuapp.com",
   "basePath": "/",
   "schemes": [
     "http",
