@@ -19,7 +19,8 @@ const doc = {
         },
         content: '貼文內容',
         image: '圖片網址',
-        likes: 0
+        likes: 0,
+        createdAt: '2022-05-11T14:45:41.770Z'
       }]
     },
     createPosts: {

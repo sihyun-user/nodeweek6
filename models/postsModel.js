@@ -21,8 +21,7 @@ const postSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
-      select: false // 不要在前台顯示
+      default: Date.now
     }
   },
   {
