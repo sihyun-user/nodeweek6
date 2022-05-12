@@ -7,7 +7,7 @@ const posts = {
   async getPosts(req, res) {
     /*
       #swagger.tags = ['Posts - 貼文']
-      #swagger.description = '取得貼文 API'
+      #swagger.description = '取得全部貼文 API'
       #swagger.responses[200] = { 
         description: '貼文資訊',
         schema: { $ref: '#/definitions/getPosts' }
@@ -43,11 +43,15 @@ const posts = {
           description: '貼文資訊',
           schema: { $ref: '#/definitions/createPosts' }
         }
+        #swagger.responses[400] = { 
+          description: '錯誤資訊',
+          schema: { status: false, message: '欄位未填寫正確' }
+        }
       */
-      const { user, content } = req.body;
+      const { body } = req;
       const newPost = await Post.create({
-        user: user,
-        content : content
+        user: body.user,
+        content : body.content
       });
       responseHandler.handleSuccess(res, newPost);
     } catch (error) {
@@ -70,21 +74,24 @@ const posts = {
     responseHandler.handleSuccess(res, []);
   },
   async deleteOnePosts(req, res) {
-    /*
-      #swagger.tags = ['Posts - 貼文']
-      #swagger.description = '刪除單則貼文 API'
-      #swagger.responses[200] = {
-        description: '貼文資訊',
-        schema: { $ref: '#/definitions/deleteOnePosts' }
-      }
-    */
     try {
+      /*
+        #swagger.tags = ['Posts - 貼文']
+        #swagger.description = '刪除單則貼文 API'
+        #swagger.responses[200] = {
+          description: '貼文資訊',
+          schema: { $ref: '#/definitions/deleteOnePosts' }
+        }
+        #swagger.responses[400] = { 
+          description: '錯誤資訊',
+          schema: { status: false, message: '刪除失敗，欄位未填寫正確，或無此ID' }
+        }
+      */
       const id = req.params.id;
-      const postData = await Post.find({'_id': id});
 
-      if(postData.length == 0) throw error; 
-
-      await Post.findByIdAndDelete(id);
+      const Postsdata = await Post.findByIdAndDelete(id);
+      
+      if (!Postsdata) throw error;
 
       allPosts = await Post.find();
 
@@ -94,36 +101,38 @@ const posts = {
     }
   },
   async updatePosts(req, res) {
-    /*
-      #swagger.tags = ['Posts - 貼文']
-      #swagger.description = '更新單則貼文 API'
-      #swagger.parameters['body'] = {
-        in: 'body',
-        type: 'object',
-        required: true,
-        description: '資料格式',
-        schema: { 
-          $content: '貼文內容',
-          image: '圖片網址',
-        }
-      }
-      #swagger.responses[200] = {
-        description: '貼文資訊'
-        schema: { $ref: '#/definitions/updatePosts }
-      }
-    */
     try {
+      /*
+        #swagger.tags = ['Posts - 貼文']
+        #swagger.description = '更新單則貼文 API'
+        #swagger.parameters['body'] = {
+          in: 'body',
+          type: 'object',
+          required: true,
+          description: '資料格式',
+          schema: { 
+            $content: '貼文內容',
+            image: '圖片網址',
+          }
+        }
+        #swagger.responses[200] = {
+          description: '貼文資訊',
+          schema: { $ref: '#/definitions/updatePosts' }
+        }
+        #swagger.responses[400] = { 
+          description: '錯誤資訊',
+          schema: { status: false, message: '欄位未填寫正確，或無此ID' }
+        }
+      */
       const id = req.params.id;
       const { name, content } = req.body;
-
-      const postData = await Post.find({'_id': id});
-
-      if(postData.length == 0 ) throw error;
 
       const updateData = await Post.findByIdAndUpdate(id, {
         name: name,
         content: content,
       },{new: true});
+
+      if (!updateData) throw error;
 
       responseHandler.handleSuccess(res, updateData);
     } catch (error) {
