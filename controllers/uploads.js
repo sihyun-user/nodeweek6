@@ -10,7 +10,7 @@ const uploads = {
       #swagger.description = '取得所有圖片 API'
       #swagger.responses[200] = { 
         description: '圖片資訊',
-        schema: { $ref: '#/definitions/getImages' }
+        schema: { $ref: '#/definitions/getUsers' }
       }
     */
     const allImages = await IMAGE.find();
@@ -37,7 +37,7 @@ const uploads = {
         }
         #swagger.responses[200] = { 
           description: '圖片資訊',
-          schema: { $ref: '#/definitions/uploadImage' }
+          schema: { $ref: '#/definitions/uploadImages' }
         }
         #swagger.responses[400] = { 
           description: '錯誤資訊',

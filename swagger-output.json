@@ -356,7 +356,7 @@
           "200": {
             "description": "圖片資訊",
             "schema": {
-              "$ref": "#/definitions/getImages"
+              "$ref": "#/definitions/getUsers"
             }
           }
         }
@@ -390,7 +390,7 @@
           "200": {
             "description": "圖片資訊",
             "schema": {
-              "$ref": "#/definitions/uploadImage"
+              "$ref": "#/definitions/uploadImages"
             }
           },
           "400": {
