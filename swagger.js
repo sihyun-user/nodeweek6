@@ -5,7 +5,7 @@ const doc = {
     title: 'Meta API', // 文件名稱
     description: '範例生成文件' // 文件描述
   },
-  host: 'fast-mountain-34375.herokuapp.com', // (重要) 本地:localhost:3005 | heroku:fast-mountain-34375.herokuapp.com
+  host: 'localhost:3005', // (重要) 本地:localhost:3005 | heroku:fast-mountain-34375.herokuapp.com
   schemes: ['http', 'https'], // swagger文件支援哪幾種模式
   definitions: {
     getPosts: {
@@ -74,6 +74,22 @@ const doc = {
         email: 'test@gmail.com',
         photo: '頭貼網址',
       }
+    },
+    uploadImages: {
+      status: true,
+      data: {
+        _id: '6277c7231f5cea212fc08c8a',
+        url: '圖片網址',
+        createdAt: '2022-05-11T14:45:41.770Z'
+      }
+    },
+    getImages: {
+      status: true,
+      data: [{
+        _id: '627bbdb68f689a16b42ca602',
+        url: '圖片網址',
+        createdAt: '2022-05-11T14:45:41.770Z'
+      }]
     }
   }
 };

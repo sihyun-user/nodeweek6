@@ -7,7 +7,7 @@ const posts = {
   async getPosts(req, res) {
     /*
       #swagger.tags = ['Posts - 貼文']
-      #swagger.description = '取得全部貼文 API'
+      #swagger.description = '取得貼文 API'
       #swagger.responses[200] = { 
         description: '貼文資訊',
         schema: { $ref: '#/definitions/getPosts' }
@@ -49,6 +49,7 @@ const posts = {
         }
       */
       const { body } = req;
+
       const newPost = await Post.create({
         user: body.user,
         content : body.content,
@@ -56,7 +57,6 @@ const posts = {
       });
       responseHandler.handleSuccess(res, newPost);
     } catch (error) {
-      console.log(error)
       responseHandler.handleError(res, errorMsg.POST);
     };
   },

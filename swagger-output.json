@@ -17,7 +17,7 @@
         "tags": [
           "Posts - 貼文"
         ],
-        "description": "取得全部貼文 API",
+        "description": "取得貼文 API",
         "parameters": [
           {
             "name": "timeSort",
@@ -344,6 +344,76 @@
           }
         }
       }
+    },
+    "/uploads/": {
+      "get": {
+        "tags": [
+          "Uploads - 圖片"
+        ],
+        "description": "取得所有圖片 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "圖片資訊",
+            "schema": {
+              "$ref": "#/definitions/getImages"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Uploads - 圖片"
+        ],
+        "description": "上傳圖片 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "example": "圖片網址"
+                }
+              },
+              "required": [
+                "url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "圖片資訊",
+            "schema": {
+              "$ref": "#/definitions/uploadImage"
+            }
+          },
+          "400": {
+            "description": "錯誤資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "上傳圖片失敗，請重新確認"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -564,6 +634,61 @@
             "photo": {
               "type": "string",
               "example": "頭貼網址"
+            }
+          }
+        }
+      }
+    },
+    "uploadImages": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "6277c7231f5cea212fc08c8a"
+            },
+            "url": {
+              "type": "string",
+              "example": "圖片網址"
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-05-11T14:45:41.770Z"
+            }
+          }
+        }
+      }
+    },
+    "getImages": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "627bbdb68f689a16b42ca602"
+              },
+              "url": {
+                "type": "string",
+                "example": "圖片網址"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2022-05-11T14:45:41.770Z"
+              }
             }
           }
         }
