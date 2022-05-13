@@ -51,10 +51,12 @@ const posts = {
       const { body } = req;
       const newPost = await Post.create({
         user: body.user,
-        content : body.content
+        content : body.content,
+        image: body.image
       });
       responseHandler.handleSuccess(res, newPost);
     } catch (error) {
+      console.log(error)
       responseHandler.handleError(res, errorMsg.POST);
     };
   },
