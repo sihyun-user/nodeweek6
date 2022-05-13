@@ -1,7 +1,7 @@
 const errorMsg = require('../service/errorMsg');
 const responseHandler = require('../service/responseHandler');
-const Post = require('../models/postsModel');
-const User = require('../models/usersModel');
+const Post = require('../models/postModel');
+const User = require('../models/userModel');
 
 const posts = {
   async getPosts(req, res) {

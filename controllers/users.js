@@ -1,6 +1,6 @@
 const errorMsg = require('../service/errorMsg');
 const responseHandler = require('../service/responseHandler');
-const User = require('../models/usersModel')
+const User = require('../models/userModel')
 
 const users = {
   async getUsers(req, res) {

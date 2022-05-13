@@ -4,11 +4,11 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, '請輸入您的名字']
+      required: [true, '用戶名為必填']
     },
     email: {
       type: String,
-      required: [true, '請輸入您的 Email'],
+      required: [true, 'Email為必填'],
       unique: true,
       lowercase: true,
       select: false
