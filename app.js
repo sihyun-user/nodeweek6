@@ -25,13 +25,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(history());
-app.use(express.static(path.join(__dirname, './dist')));
 
 app.use('/api/posts', postsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/uploads', uploadsRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use(history());
+app.use(express.static(path.join(__dirname, './dist')));
 
 // page not found
 app.use('*', (req, res, next) => {
