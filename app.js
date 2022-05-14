@@ -26,9 +26,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/posts', postsRouter);
-app.use('/users', usersRouter);
-app.use('/uploads', uploadsRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/uploads', uploadsRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // page not found

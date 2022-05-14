@@ -12,7 +12,7 @@
     "https"
   ],
   "paths": {
-    "/posts/": {
+    "/api/posts/": {
       "get": {
         "tags": [
           "Posts - 貼文"
@@ -131,7 +131,7 @@
         }
       }
     },
-    "/posts/{id}": {
+    "/api/posts/{id}": {
       "delete": {
         "tags": [
           "Posts - 貼文"
@@ -237,7 +237,7 @@
         }
       }
     },
-    "/users/": {
+    "/api/users/": {
       "get": {
         "tags": [
           "Users - 用戶(API測試用)"
@@ -345,7 +345,7 @@
         }
       }
     },
-    "/uploads/": {
+    "/api/uploads/": {
       "get": {
         "tags": [
           "Uploads - 圖片"
