@@ -11,6 +11,14 @@
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiky",
+      "in": "headers",
+      "name": "authorization",
+      "description": "請加上 API Token"
+    }
+  },
   "paths": {
     "/api/posts/": {
       "get": {
@@ -55,7 +63,7 @@
               "properties": {
                 "user": {
                   "type": "string",
-                  "example": "6277c7231f5cea212fc08c8a"
+                  "example": "用戶ID"
                 },
                 "content": {
                   "type": "string",
@@ -342,7 +350,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "apikeyAuth": []
+          }
+        ]
       }
     },
     "/api/uploads/": {
@@ -366,22 +379,26 @@
           "Uploads - 圖片"
         ],
         "description": "上傳圖片 API",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "image",
+            "in": "formData",
+            "type": "file",
             "required": true,
-            "description": "資料格式",
+            "description": "圖檔",
             "schema": {
               "type": "object",
               "properties": {
-                "url": {
+                "image": {
                   "type": "string",
-                  "example": "圖片網址"
+                  "example": "圖檔"
                 }
               },
               "required": [
-                "url"
+                "image"
               ]
             }
           }
@@ -413,6 +430,40 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Uploads - 圖片"
+        ],
+        "description": "刪除全部圖片 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "圖片資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "array",
+                  "example": [],
+                  "items": {}
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apikeyAuth": []
+          }
+        ]
       }
     }
   },
@@ -438,7 +489,7 @@
                 "properties": {
                   "_id": {
                     "type": "string",
-                    "example": "6277c7231f5cea212fc08c8a"
+                    "example": "用戶ID"
                   },
                   "name": {
                     "type": "string",
@@ -487,7 +538,7 @@
             },
             "user": {
               "type": "string",
-              "example": "6277c7231f5cea212fc08c8a"
+              "example": "用戶ID"
             },
             "content": {
               "type": "string",
@@ -527,7 +578,7 @@
               },
               "user": {
                 "type": "string",
-                "example": "6277c7231f5cea212fc08c8a"
+                "example": "用戶ID"
               },
               "content": {
                 "type": "string",
@@ -562,7 +613,7 @@
             },
             "user": {
               "type": "string",
-              "example": "6277c7231f5cea212fc08c8a"
+              "example": "用戶ID"
             },
             "content": {
               "type": "string",
@@ -594,7 +645,7 @@
             "properties": {
               "_id": {
                 "type": "string",
-                "example": "6277c7231f5cea212fc08c8a"
+                "example": "627e5f638f1c2825fe239443"
               },
               "name": {
                 "type": "string",
@@ -621,7 +672,7 @@
           "properties": {
             "_id": {
               "type": "string",
-              "example": "6277c7231f5cea212fc08c8a"
+              "example": "627e5f638f1c2825fe239443"
             },
             "name": {
               "type": "string",
@@ -651,7 +702,7 @@
           "properties": {
             "_id": {
               "type": "string",
-              "example": "6277c7231f5cea212fc08c8a"
+              "example": "627bcc153ef5abfd5c800b5f"
             },
             "url": {
               "type": "string",

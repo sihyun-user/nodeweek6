@@ -57,7 +57,8 @@ const users = {
   async deleteAllUsers(req, res) {
     /*
       #swagger.tags = ['Users - 用戶(API測試用)']
-      #swagger.description = '刪除全部用戶 API'
+      #swagger.description = '刪除全部用戶 API',
+      #swagger.security = [{'apikeyAuth': []}]
       #swagger.responses[200] = {
         description: '用戶資訊',
         schema: {

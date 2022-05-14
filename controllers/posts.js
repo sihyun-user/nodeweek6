@@ -34,7 +34,7 @@ const posts = {
           required: true,
           description: '資料格式',
           schema: { 
-            $user: '6277c7231f5cea212fc08c8a',
+            $user: '用戶ID',
             $content: '貼文內容',
             image: '圖片網址',
           }
@@ -127,10 +127,10 @@ const posts = {
         }
       */
       const id = req.params.id;
-      const { name, content } = req.body;
+      const { image, content } = req.body;
 
       const updateData = await Post.findByIdAndUpdate(id, {
-        name: name,
+        image: image,
         content: content,
       },{new: true});
 

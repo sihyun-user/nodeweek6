@@ -26,13 +26,15 @@ const uploads = {
       /*
         #swagger.tags = ['Uploads - 圖片']
         #swagger.description = '上傳圖片 API'
-        #swagger.parameters['body'] = {
-          in: 'body',
-          type: 'object',
+        #swagger.consumes = ['multipart/form-data']
+        #swagger.parameters['singleFile'] = {
+          in: 'formData',
+          name: 'image',
+          type: 'file',
           required: true,
-          description: '資料格式',
+          description: '圖檔',
           schema: { 
-            $url: '圖片網址',
+            $image: '圖檔',
           }
         }
         #swagger.responses[200] = { 
@@ -51,7 +53,23 @@ const uploads = {
     } catch (error) {
       responseHandler.handleError(res, errorMsg.IMAGE_POST)
     }
-  } 
+  },
+  async deleteAllImages(req, res) {
+    /*
+      #swagger.tags = ['Uploads - 圖片']
+      #swagger.description = '刪除全部圖片 API'
+      #swagger.security = [{'apikeyAuth': []}]
+      #swagger.responses[200] = {
+        description: '圖片資訊',
+        schema: {
+          status: true,
+          data: []
+        }
+      }
+    */
+    await IMAGE.deleteMany();
+    responseHandler.handleSuccess(res, []);
+  }
 }
 
 module.exports = uploads

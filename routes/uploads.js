@@ -5,5 +5,6 @@ const { uploadModule } = require('../service/uploadHnadle');
 
 router.get('/', UploadsControllers.getImages);
 router.post('/', uploadModule.single('image'), UploadsControllers.uploadImages);
+router.delete('/', UploadsControllers.deleteAllImages);
 
 module.exports = router
