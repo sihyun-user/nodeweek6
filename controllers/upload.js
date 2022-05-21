@@ -19,8 +19,8 @@ exports.uploadImage = catchAsync(async(req, res, next) => {
   }, next);
 
   const imgurLink = imgurData.link;
-  await IMAGE.create({ url: imgurLink });
-  appSuccess({res, message:'上傳圖片成功'});
+  const data = await IMAGE.create({ url: imgurLink });
+  appSuccess({res, data});
 })
 
 exports.deleteAllImage = catchAsync(async(req, res, next) => {
