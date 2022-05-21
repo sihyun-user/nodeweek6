@@ -31,39 +31,6 @@ const doc = {
         createdAt: '2022-05-11T14:45:41.770Z'
       }]
     },
-    createPosts: {
-      status: true,
-      data: {
-        _id: '627bcc153ef5abfd5c800b5f',
-        user: '用戶ID',
-        content: '貼文內容',
-        image: '圖片網址',
-        likes: 0,
-        createdAt: '2022-05-11T14:45:41.770Z'
-      }
-    },
-    deleteOnePosts: {
-      status: true,
-      data: [
-        {
-          _id: '627bcc153ef5abfd5c800b5f',
-          user: '用戶ID',
-          content: '貼文內容',
-          image: '圖片網址',
-          likes: 0,
-        }
-      ]
-    },
-    updatePosts: {
-      status: true,
-      data: {
-        _id: '627bcc153ef5abfd5c800b5f',
-        user: '用戶ID',
-        content: '貼文內容',
-        image: '圖片網址',
-        likes: 0,
-      }
-    },
     getUsers: {
       status: true,
       data: [
@@ -74,16 +41,7 @@ const doc = {
         }
       ]
     },
-    createUsers: {
-      status: true,
-      data: {
-        _id: '627e5f638f1c2825fe239443',
-        name: '用戶名稱',
-        email: 'test@gmail.com',
-        photo: '頭貼網址',
-      }
-    },
-    uploadImages: {
+    uploadImage: {
       status: true,
       data: {
         _id: '627bcc153ef5abfd5c800b5f',
