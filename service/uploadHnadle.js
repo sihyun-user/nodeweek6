@@ -9,14 +9,14 @@ const uploadModule = multer({
   },
   fileFilter (req, file, callback) {  // 限制檔案格式為 image
     if (!file.mimetype.match(/^image/)) {
-      callback(new Error().message = '檔案格式錯誤');
+      callback(new Error('檔案格式錯誤'));
     } else {
       callback(null, true);
     }
   }
 });
 
-async function uploadImgur (file) {
+const uploadImgur = async (file) => {
   try {
     const formData = new FormData()
     formData.append('image', file)
@@ -30,9 +30,9 @@ async function uploadImgur (file) {
         // 'Authorization': `Client-ID ${process.env.IMGUR_CLIENT_ID}`
       }
     })
-    return response.data.data
+    return response.data.data;
   } catch (error) {
-    console.log('圖片上傳imgur錯誤')
+    console.log('圖片上傳imgur失敗');
   }
 }
 
