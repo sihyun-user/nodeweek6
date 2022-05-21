@@ -6,6 +6,21 @@ router.get('/posts',
   /*
     #swagger.tags = ['Post - 貼文']
     #swagger.description = '取得貼文列表 API'
+    #swagger.parameters['timeSort'] = {
+      in: 'query',
+      type: 'String',
+      description: '時間排序 [desc / asc]',
+    },
+    #swagger.parameters['q'] = {
+      in: 'query',
+      type: 'String',
+      description: '關鍵字搜尋',
+    },
+    #swagger.parameters['user_id'] = {
+      in: 'query',
+      type: 'String',
+      description: '用戶 ID',
+    }  
     #swagger.responses[200] = { 
       description: '貼文資訊',
       schema: { $ref: '#/definitions/getPosts' }

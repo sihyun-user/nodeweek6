@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "b6a4e49e-e2e9-4bab-91c7-88c0a5023102",
 		"name": "metawall-heroku",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19895292"
 	},
 	"item": [
 		{
@@ -26,7 +27,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts?timeSort=desc&q=",
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts?timeSort=asc&q=&user_id=6289364836fd8fd3971f6841",
 							"protocol": "https",
 							"host": [
 								"fast-mountain-34375",
@@ -40,12 +41,57 @@
 							"query": [
 								{
 									"key": "timeSort",
-									"value": "desc"
+									"value": "asc"
 								},
 								{
 									"key": "q",
 									"value": ""
+								},
+								{
+									"key": "user_id",
+									"value": "6289364836fd8fd3971f6841"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取得單一貼文",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/post/123",
+							"protocol": "https",
+							"host": [
+								"fast-mountain-34375",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"post",
+								"123"
 							]
 						}
 					},
@@ -58,7 +104,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"user\": \"627fe363a75666b4fdf2127a\",\r\n  \"content\": \"貼文內容\",\r\n  \"image\": \"\"\r\n}",
+							"raw": "{\r\n  \"user\": \"6289364836fd8fd3971f6841\",\r\n  \"content\": \"測試001\",\r\n  \"image\": \"https://i.imgur.com/UV27jJ5.jpg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -66,7 +112,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts",
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/post",
 							"protocol": "https",
 							"host": [
 								"fast-mountain-34375",
@@ -75,7 +121,7 @@
 							],
 							"path": [
 								"api",
-								"posts"
+								"post"
 							]
 						}
 					},
@@ -126,7 +172,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts/123",
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/post/123",
 							"protocol": "https",
 							"host": [
 								"fast-mountain-34375",
@@ -135,7 +181,7 @@
 							],
 							"path": [
 								"api",
-								"posts",
+								"post",
 								"123"
 							]
 						}
@@ -149,7 +195,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"content\": \"修改貼文內容\",\r\n  \"image\": \"\"\r\n}",
+							"raw": "{\r\n  \"content\": \"今日天氣雨 :((\",\r\n  \"image\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -157,7 +203,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts/123",
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/post/123",
 							"protocol": "https",
 							"host": [
 								"fast-mountain-34375",
@@ -166,7 +212,7 @@
 							],
 							"path": [
 								"api",
-								"posts",
+								"post",
 								"123"
 							]
 						}
@@ -206,7 +252,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"pikachu\",\r\n    \"email\": \"pikachu@gmail.com\",\r\n    \"photo\": \"\"\r\n}",
+							"raw": "{\r\n    \"name\": \"harry\",\r\n    \"email\": \"harry@gmail.com\",\r\n    \"photo\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -214,7 +260,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/users",
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/user",
 							"protocol": "https",
 							"host": [
 								"fast-mountain-34375",
@@ -223,28 +269,7 @@
 							],
 							"path": [
 								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "刪除全部用戶",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/users",
-							"protocol": "https",
-							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"api",
-								"users"
+								"user"
 							]
 						}
 					},
@@ -288,12 +313,12 @@
 									"key": "image",
 									"contentType": "image/jpeg",
 									"type": "file",
-									"src": "/C:/Users/User/Desktop/0 (2).jpg"
+									"src": "/C:/Users/User/Desktop/image2.jpg"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/uploads",
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/upload",
 							"protocol": "https",
 							"host": [
 								"fast-mountain-34375",
@@ -302,28 +327,7 @@
 							],
 							"path": [
 								"api",
-								"uploads"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "刪除所有圖片",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/uploads",
-							"protocol": "https",
-							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"api",
-								"uploads"
+								"upload"
 							]
 						}
 					},

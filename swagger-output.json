@@ -26,7 +26,26 @@
           "Post - 貼文"
         ],
         "description": "取得貼文列表 API",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "timeSort",
+            "in": "query",
+            "type": "String",
+            "description": "時間排序 [desc / asc]"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "type": "String",
+            "description": "關鍵字搜尋"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "type": "String",
+            "description": "用戶 ID"
+          }
+        ],
         "responses": {
           "200": {
             "description": "貼文資訊",

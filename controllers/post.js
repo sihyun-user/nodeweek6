@@ -8,7 +8,7 @@ const apiState = require('../service/apiState');
 
 exports.getAllPost = catchAsync(async(req, res, next) => {
   const query = req.query;
-    
+
   // 檢查 ObjectId 型別是否有誤
   if (query.user_id && !handleVerify.checkId(query.user_id)) {
     return appError(apiState.ID_ERROR, next);
