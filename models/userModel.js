@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: null
+      default: ''
     },
   },
   {
