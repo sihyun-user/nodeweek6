@@ -20,24 +20,13 @@
     }
   },
   "paths": {
-    "/api/posts/": {
+    "/api/posts": {
       "get": {
         "tags": [
-          "Posts - 貼文"
+          "Post - 貼文"
         ],
-        "description": "取得貼文 API",
-        "parameters": [
-          {
-            "name": "timeSort",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "q",
-            "in": "query",
-            "type": "string"
-          }
-        ],
+        "description": "取得貼文列表 API",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "貼文資訊",
@@ -47,9 +36,155 @@
           }
         }
       },
+      "delete": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "刪除全部貼文 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除所有貼文成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post/{post_id}": {
+      "get": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "取得單筆貼文 API",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "$ref": "#/definitions/getOnePost"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "更新此筆貼文 API",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "貼文內容"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "圖片網址"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "編輯此筆貼文成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "刪除此筆貼文 API",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除此筆貼文成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post": {
       "post": {
         "tags": [
-          "Posts - 貼文"
+          "Post - 貼文"
         ],
         "description": "建立貼文 API",
         "parameters": [
@@ -85,21 +220,15 @@
           "200": {
             "description": "貼文資訊",
             "schema": {
-              "$ref": "#/definitions/createPosts"
-            }
-          },
-          "400": {
-            "description": "錯誤資訊",
-            "schema": {
               "type": "object",
               "properties": {
                 "status": {
                   "type": "boolean",
-                  "example": false
+                  "example": true
                 },
                 "message": {
                   "type": "string",
-                  "example": "欄位未填寫正確"
+                  "example": "新增貼文成功"
                 }
               },
               "xml": {
@@ -108,16 +237,33 @@
             }
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/uploads": {
+      "get": {
         "tags": [
-          "Posts - 貼文"
+          "Upload - 圖片"
         ],
-        "description": "刪除全部貼文 API",
+        "description": "取得所有圖片 API",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "貼文資訊",
+            "description": "圖片資訊",
+            "schema": {
+              "$ref": "#/definitions/getImages"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Upload - 圖片"
+        ],
+        "description": "刪除全部圖片 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "圖片資訊",
             "schema": {
               "type": "object",
               "properties": {
@@ -125,53 +271,9 @@
                   "type": "boolean",
                   "example": true
                 },
-                "data": {
-                  "type": "array",
-                  "example": [],
-                  "items": {}
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/posts/{id}": {
-      "delete": {
-        "tags": [
-          "Posts - 貼文"
-        ],
-        "description": "刪除單則貼文 API",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "貼文資訊",
-            "schema": {
-              "$ref": "#/definitions/deleteOnePosts"
-            }
-          },
-          "400": {
-            "description": "錯誤資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
                 "message": {
                   "type": "string",
-                  "example": "刪除失敗，欄位未填寫正確，或無此ID"
+                  "example": "刪除所有圖片成功"
                 }
               },
               "xml": {
@@ -179,76 +281,58 @@
               }
             }
           }
-        }
-      },
-      "patch": {
+        },
+        "security": [
+          {
+            "apikeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/upload": {
+      "post": {
         "tags": [
-          "Posts - 貼文"
+          "Upload - 圖片"
         ],
-        "description": "更新單則貼文 API",
+        "description": "上傳圖片 API",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
+            "name": "image",
+            "in": "formData",
+            "type": "file",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "資料格式",
+            "description": "圖檔",
             "schema": {
               "type": "object",
               "properties": {
-                "content": {
-                  "type": "string",
-                  "example": "貼文內容"
-                },
                 "image": {
                   "type": "string",
-                  "example": "圖片網址"
+                  "example": "圖檔"
                 }
               },
               "required": [
-                "content"
+                "image"
               ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "貼文資訊",
+            "description": "圖片資訊",
             "schema": {
-              "$ref": "#/definitions/updatePosts"
-            }
-          },
-          "400": {
-            "description": "錯誤資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "message": {
-                  "type": "string",
-                  "example": "欄位未填寫正確，或無此ID"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/uploadImage"
             }
           }
         }
       }
     },
-    "/api/users/": {
+    "/api/users": {
       "get": {
         "tags": [
-          "Users - 用戶(API測試用)"
+          "User - 用戶(API測試用)"
         ],
         "description": "取得全部用戶 API",
         "parameters": [],
@@ -260,10 +344,12 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/user": {
       "post": {
         "tags": [
-          "Users - 用戶(API測試用)"
+          "User - 用戶(API測試用)"
         ],
         "description": "建立用戶 API",
         "parameters": [
@@ -299,129 +385,15 @@
           "200": {
             "description": "用戶資訊",
             "schema": {
-              "$ref": "#/definitions/createUsers"
-            }
-          },
-          "400": {
-            "description": "錯誤資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "message": {
-                  "type": "string",
-                  "example": "欄位未填寫正確"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Users - 用戶(API測試用)"
-        ],
-        "description": "刪除全部用戶 API",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "用戶資訊",
-            "schema": {
               "type": "object",
               "properties": {
                 "status": {
                   "type": "boolean",
                   "example": true
                 },
-                "data": {
-                  "type": "array",
-                  "example": [],
-                  "items": {}
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "apikeyAuth": []
-          }
-        ]
-      }
-    },
-    "/api/uploads/": {
-      "get": {
-        "tags": [
-          "Uploads - 圖片"
-        ],
-        "description": "取得所有圖片 API",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "圖片資訊",
-            "schema": {
-              "$ref": "#/definitions/getUsers"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Uploads - 圖片"
-        ],
-        "description": "上傳圖片 API",
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "parameters": [
-          {
-            "name": "image",
-            "in": "formData",
-            "type": "file",
-            "required": true,
-            "description": "圖檔",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "image": {
-                  "type": "string",
-                  "example": "圖檔"
-                }
-              },
-              "required": [
-                "image"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "圖片資訊",
-            "schema": {
-              "$ref": "#/definitions/uploadImages"
-            }
-          },
-          "400": {
-            "description": "錯誤資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
                 "message": {
                   "type": "string",
-                  "example": "上傳圖片失敗，請重新確認"
+                  "example": "建立用戶成功"
                 }
               },
               "xml": {
@@ -430,40 +402,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "Uploads - 圖片"
-        ],
-        "description": "刪除全部圖片 API",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "圖片資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "data": {
-                  "type": "array",
-                  "example": [],
-                  "items": {}
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "apikeyAuth": []
-          }
-        ]
       }
     }
   },
@@ -522,115 +460,6 @@
         }
       }
     },
-    "createPosts": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "boolean",
-          "example": true
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "627bcc153ef5abfd5c800b5f"
-            },
-            "user": {
-              "type": "string",
-              "example": "用戶ID"
-            },
-            "content": {
-              "type": "string",
-              "example": "貼文內容"
-            },
-            "image": {
-              "type": "string",
-              "example": "圖片網址"
-            },
-            "likes": {
-              "type": "number",
-              "example": 0
-            },
-            "createdAt": {
-              "type": "string",
-              "example": "2022-05-11T14:45:41.770Z"
-            }
-          }
-        }
-      }
-    },
-    "deleteOnePosts": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "boolean",
-          "example": true
-        },
-        "data": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string",
-                "example": "627bcc153ef5abfd5c800b5f"
-              },
-              "user": {
-                "type": "string",
-                "example": "用戶ID"
-              },
-              "content": {
-                "type": "string",
-                "example": "貼文內容"
-              },
-              "image": {
-                "type": "string",
-                "example": "圖片網址"
-              },
-              "likes": {
-                "type": "number",
-                "example": 0
-              }
-            }
-          }
-        }
-      }
-    },
-    "updatePosts": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "boolean",
-          "example": true
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "627bcc153ef5abfd5c800b5f"
-            },
-            "user": {
-              "type": "string",
-              "example": "用戶ID"
-            },
-            "content": {
-              "type": "string",
-              "example": "貼文內容"
-            },
-            "image": {
-              "type": "string",
-              "example": "圖片網址"
-            },
-            "likes": {
-              "type": "number",
-              "example": 0
-            }
-          }
-        }
-      }
-    },
     "getUsers": {
       "type": "object",
       "properties": {
@@ -660,37 +489,7 @@
         }
       }
     },
-    "createUsers": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "boolean",
-          "example": true
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "627e5f638f1c2825fe239443"
-            },
-            "name": {
-              "type": "string",
-              "example": "用戶名稱"
-            },
-            "email": {
-              "type": "string",
-              "example": "test@gmail.com"
-            },
-            "photo": {
-              "type": "string",
-              "example": "頭貼網址"
-            }
-          }
-        }
-      }
-    },
-    "uploadImages": {
+    "uploadImage": {
       "type": "object",
       "properties": {
         "status": {
