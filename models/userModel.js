@@ -13,7 +13,10 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       select: false
     },
-    photo: String,
+    photo: {
+      type: String,
+      default: null
+    },
   },
   {
     versionKey: false
