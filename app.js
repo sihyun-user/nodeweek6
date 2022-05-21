@@ -7,14 +7,17 @@ const history = require('connect-history-api-fallback');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
 
+// controller
+const handleError = require('./controllers/error');
+
 // service
-const errorMsg = require('./service/errorMsg');
-const responseHandler = require('./service/responseHandler');
+const apiState = require('./service/apiState');
+const appError = require('./service/appError');
 
 // router
-const postsRouter = require('./routes/posts');
-const usersRouter = require('./routes/users');
-const uploadsRouter = require('./routes/uploads');
+const postRouter = require('./routes/post');
+const uploadRouter = require('./routes/upload');
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -26,16 +29,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api/posts', postsRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/uploads', uploadsRouter);
+app.use('/api', postRouter);
+app.use('/api', uploadRouter);
+app.use('/api', userRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(history());
 app.use(express.static(path.join(__dirname, './dist')));
 
-// page not found
-app.use('*', (req, res, next) => {
-  next(responseHandler.handleError(res, errorMsg.NOT_FOUND))
+// 404 錯誤
+app.use('*',(req, res, next) => {
+  appError(apiState.PAGE_NOT_FOUND, next);
 });
+
+// 錯誤處理
+app.use(handleError);
 
 module.exports = app;
