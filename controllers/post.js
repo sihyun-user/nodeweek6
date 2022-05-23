@@ -37,7 +37,8 @@ exports.getOnePost = catchAsync(async(req, res, next) => {
   const data = await Post.findById(postId).populate({
     path: 'user',
     select: '_id name photo'
-  }).exec();
+  });
+
   if (!data) return appError(apiState.DATA_NOT_FOUND, next);
 
   appSuccess({res, data})
@@ -54,13 +55,13 @@ exports.createPost = catchAsync(async(req, res, next) => {
   }
 
   // 檢查用戶資料
-  const userData = await User.findById(user).exec();
+  const userData = await User.findById(user);
   if(!userData) return appError({
     statusCode: 400,
     message: '查無用戶資料，無法新增貼文'
   }, next);
 
-  const data = await Post.create({
+  await Post.create({
     user, content, image, likes, createdAt
   });
 
@@ -97,6 +98,7 @@ exports.deleteOnePost = catchAsync(async(req, res, next) => {
   }
 
   const post = await Post.findByIdAndDelete(postId);
+
   if (!post) return appError(apiState.DATA_NOT_FOUND, next);
   
   appSuccess({res, message:'刪除此筆貼文成功'});
