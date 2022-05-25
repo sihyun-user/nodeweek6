@@ -3,7 +3,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const history = require('connect-history-api-fallback');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
 
@@ -33,8 +32,6 @@ app.use('/api', postRouter);
 app.use('/api', uploadRouter);
 app.use('/api', userRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.use(history());
-app.use(express.static(path.join(__dirname, './dist')));
 
 // 404 錯誤
 app.use('*',(req, res, next) => {
