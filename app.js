@@ -7,7 +7,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output');
 
 // controller
-const handleError = require('./controllers/error');
+const ErrorControllers = require('./controllers/error');
 
 // service
 const apiState = require('./service/apiState');
@@ -41,6 +41,6 @@ app.use('*',(req, res, next) => {
 });
 
 // 錯誤處理
-app.use(handleError);
+app.use(ErrorControllers);
 
 module.exports = app;
