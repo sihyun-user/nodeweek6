@@ -3,14 +3,14 @@ const User = require('../models/userModel');
 const catchAsync = require('../service/catchAsync');
 const appSuccess = require('../service/appSuccess');
 const appError = require('../service/appError');
-const handleVerify = require('../service/appVerify');
 const apiState = require('../service/apiState');  
+const { checkId } = require('../service/appVerify');
 
 exports.getAllPost = catchAsync(async(req, res, next) => {
   const query = req.query;
 
   // 檢查 ObjectId 型別是否有誤
-  if (query.user_id && !handleVerify.checkId(query.user_id)) {
+  if (query.user_id && !checkId(query.user_id)) {
     return appError(apiState.ID_ERROR, next);
   }
 
@@ -24,50 +24,40 @@ exports.getAllPost = catchAsync(async(req, res, next) => {
   }).sort(timeSort);
 
   appSuccess({res, data});
-})
+});
 
 exports.getOnePost = catchAsync(async(req, res, next) => {
   const postId = req.params.post_id;
 
   // 檢查 ObjectId 型別是否有誤
-  if (!handleVerify.checkId(postId)) {
+  if (!checkId(postId)) {
     return appError(apiState.ID_ERROR, next);
   }
 
   const data = await Post.findById(postId).populate({
     path: 'user',
     select: '_id name photo'
-  });
+  }).exec();
 
   if (!data) return appError(apiState.DATA_NOT_FOUND, next);
 
   appSuccess({res, data})
-})
+});
 
 exports.createPost = catchAsync(async(req, res, next) => {
-  const { user, content, image, likes, createdAt } = req.body;
+  const { content, image } = req.body;
 
-  if (!user || !content) return appError(apiState.DATA_MISSING, next);
+  if (!content) return appError(apiState.DATA_MISSING, next);
 
-  // 檢查 ObjectId 型別是否有誤
-  if (!handleVerify.checkId(user)) {
-    return appError(apiState.ID_ERROR, next);
-  }
-
-  // 檢查用戶資料
-  const userData = await User.findById(user);
-  if(!userData) return appError({
-    statusCode: 400,
-    message: '查無用戶資料，無法新增貼文'
-  }, next);
-
-  await Post.create({
-    user, content, image, likes, createdAt
+  const data = await Post.create({
+    user: req.user._id, 
+    content, 
+    image
   });
 
-  appSuccess({res, message:'新增貼文成功'});
+  appSuccess({res, data});
 })
-
+;
 exports.updatePost = catchAsync(async(req, res, next) => {
   const postId = req.params.post_id;
   const { image, content } = req.body;
@@ -75,25 +65,25 @@ exports.updatePost = catchAsync(async(req, res, next) => {
   if (!content) return appError(apiState.DATA_MISSING, next);
   
   // 檢查 ObjectId 型別是否有誤
-  if (!handleVerify.checkId(postId)) {
+  if (!checkId(postId)) {
     return appError(apiState.ID_ERROR, next);
   }
 
   const data = await Post.findByIdAndUpdate(postId, {
     image: image,
     content: content,
-  },{new: true});
+  },{new: true}).exec();
 
   if(!data) return appError(apiState.DATA_NOT_FOUND, next);
 
   appSuccess({res, message:'編輯此筆貼文成功'})
-})
+});
 
 exports.deleteOnePost = catchAsync(async(req, res, next) => {
   const postId = req.params.post_id;
 
   // 檢查 ObjectId 型別是否有誤
-  if (!handleVerify.checkId(postId)) {
+  if (!checkId(postId)) {
     return appError(apiState.ID_ERROR, next);
   }
 
@@ -102,12 +92,9 @@ exports.deleteOnePost = catchAsync(async(req, res, next) => {
   if (!post) return appError(apiState.DATA_NOT_FOUND, next);
   
   appSuccess({res, message:'刪除此筆貼文成功'});
-})
+});
 
 exports.deleteAllPost = catchAsync(async(req, res, next) => {
   await Post.deleteMany();
   appSuccess({res, message:'刪除所有貼文成功'});
-})
-
-
-// module.exports = posts
+});
