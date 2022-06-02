@@ -29,7 +29,7 @@ exports.isAuth = catchAsync(async(req, res, next) => {
     })
   });
 
-  const currentUser = await User.findById(decoded.id).select('+email');
+  const currentUser = await User.findById(decoded.id);
 
   req.user = currentUser;
   next();

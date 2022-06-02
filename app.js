@@ -14,7 +14,7 @@ const apiState = require('./service/apiState');
 const appError = require('./service/appError');
 
 // router
-const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
 const uploadRouter = require('./routes/upload');
 
@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api', authRouter);
+app.use('/api', userRouter);
 app.use('/api', postRouter);
 app.use('/api', uploadRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
