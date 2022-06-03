@@ -12,14 +12,228 @@
     "https"
   ],
   "securityDefinitions": {
-    "apiKeyAuth": {
-      "type": "apiky",
-      "in": "headers",
-      "name": "authorization",
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
       "description": "請加上 API Token"
     }
   },
   "paths": {
+    "/api/user/signup": {
+      "post": {
+        "tags": [
+          "User - 用戶"
+        ],
+        "description": "註冊 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": ""
+                },
+                "email": {
+                  "type": "string",
+                  "example": ""
+                },
+                "password": {
+                  "type": "string",
+                  "example": ""
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password",
+                "confirmPassword"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "註冊資訊",
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "tags": [
+          "User - 用戶"
+        ],
+        "description": "登入 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": ""
+                },
+                "password": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入資訊",
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/updatePassword": {
+      "post": {
+        "tags": [
+          "User - 用戶"
+        ],
+        "description": "更新密碼 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": ""
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "required": [
+                "password",
+                "confirmPassword"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "更新密碼資訊",
+            "schema": {
+              "$ref": "#/definitions/updatePassword"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/user/profile": {
+      "get": {
+        "tags": [
+          "User - 用戶"
+        ],
+        "description": "取得用戶資料 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "用戶資訊",
+            "schema": {
+              "$ref": "#/definitions/profile"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "User - 用戶"
+        ],
+        "description": "更新用戶資料 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": ""
+                },
+                "sex": {
+                  "type": "string",
+                  "example": ""
+                },
+                "photo": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "required": [
+                "name",
+                "sex"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "更新用戶資訊",
+            "schema": {
+              "$ref": "#/definitions/profile"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      }
+    },
     "/api/posts": {
       "get": {
         "tags": [
@@ -53,7 +267,14 @@
               "$ref": "#/definitions/getPosts"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -81,7 +302,74 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/post": {
+      "post": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "建立貼文 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "貼文內容"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "圖片網址"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "新增貼文成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
       }
     },
     "/api/post/{post_id}": {
@@ -105,7 +393,56 @@
               "$ref": "#/definitions/getOnePost"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "刪除此筆貼文 API",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除此筆貼文成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
       },
       "patch": {
         "tags": [
@@ -162,100 +499,14 @@
               }
             }
           }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Post - 貼文"
-        ],
-        "description": "刪除此筆貼文 API",
-        "parameters": [
+        },
+        "security": [
           {
-            "name": "post_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "api_key": [
+              "apiKeyAuth"
+            ]
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "貼文資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": "刪除此筆貼文成功"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/post": {
-      "post": {
-        "tags": [
-          "Post - 貼文"
-        ],
-        "description": "建立貼文 API",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "資料格式",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
-                  "type": "string",
-                  "example": "用戶ID"
-                },
-                "content": {
-                  "type": "string",
-                  "example": "貼文內容"
-                },
-                "image": {
-                  "type": "string",
-                  "example": "圖片網址"
-                }
-              },
-              "required": [
-                "user",
-                "content"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "貼文資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": "新增貼文成功"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
+        ]
       }
     },
     "/api/uploads": {
@@ -272,7 +523,14 @@
               "$ref": "#/definitions/getImages"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -303,7 +561,9 @@
         },
         "security": [
           {
-            "apikeyAuth": []
+            "api_key": [
+              "apiKeyAuth"
+            ]
           }
         ]
       }
@@ -345,82 +605,14 @@
               "$ref": "#/definitions/uploadImage"
             }
           }
-        }
-      }
-    },
-    "/api/users": {
-      "get": {
-        "tags": [
-          "User - 用戶(API測試用)"
-        ],
-        "description": "取得全部用戶 API",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "用戶資訊",
-            "schema": {
-              "$ref": "#/definitions/getUsers"
-            }
-          }
-        }
-      }
-    },
-    "/api/user": {
-      "post": {
-        "tags": [
-          "User - 用戶(API測試用)"
-        ],
-        "description": "建立用戶 API",
-        "parameters": [
+        },
+        "security": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "資料格式",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "用戶名稱"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "test@gmail.com"
-                },
-                "photo": {
-                  "type": "string",
-                  "example": ""
-                }
-              },
-              "required": [
-                "name",
-                "email"
-              ]
-            }
+            "api_key": [
+              "apiKeyAuth"
+            ]
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "用戶資訊",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": "建立用戶成功"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
+        ]
       }
     }
   },
@@ -439,7 +631,7 @@
             "properties": {
               "_id": {
                 "type": "string",
-                "example": "627bbdb68f689a16b42ca602"
+                "example": "貼文ID"
               },
               "user": {
                 "type": "object",
@@ -450,7 +642,7 @@
                   },
                   "name": {
                     "type": "string",
-                    "example": "John"
+                    "example": "用戶名"
                   },
                   "photo": {
                     "type": "string",
@@ -479,7 +671,7 @@
         }
       }
     },
-    "getUsers": {
+    "getOnePost": {
       "type": "object",
       "properties": {
         "status": {
@@ -487,22 +679,44 @@
           "example": true
         },
         "data": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string",
-                "example": "627e5f638f1c2825fe239443"
-              },
-              "name": {
-                "type": "string",
-                "example": "用戶名稱"
-              },
-              "photo": {
-                "type": "string",
-                "example": "頭貼網址"
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "貼文ID"
+            },
+            "user": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "用戶ID"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "用戶名"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "頭貼網址"
+                }
               }
+            },
+            "content": {
+              "type": "string",
+              "example": "貼文內容"
+            },
+            "image": {
+              "type": "string",
+              "example": "圖片網址"
+            },
+            "likes": {
+              "type": "number",
+              "example": 0
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-05-11T14:45:41.770Z"
             }
           }
         }
@@ -520,7 +734,7 @@
           "properties": {
             "_id": {
               "type": "string",
-              "example": "627bcc153ef5abfd5c800b5f"
+              "example": "圖片ID"
             },
             "url": {
               "type": "string",
@@ -548,7 +762,7 @@
             "properties": {
               "_id": {
                 "type": "string",
-                "example": "627bbdb68f689a16b42ca602"
+                "example": "圖片ID"
               },
               "url": {
                 "type": "string",
@@ -558,6 +772,165 @@
                 "type": "string",
                 "example": "2022-05-11T14:45:41.770Z"
               }
+            }
+          }
+        }
+      }
+    },
+    "login": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "用戶ID"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "用戶名"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "用戶E-mail"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "頭貼網址"
+                }
+              }
+            },
+            "token": {
+              "type": "string",
+              "example": ""
+            }
+          }
+        }
+      }
+    },
+    "signup": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "用戶ID"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "用戶名"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "用戶E-mail"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "頭貼網址"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2022-06-02T03:28:54.975Z"
+                }
+              }
+            },
+            "token": {
+              "type": "string",
+              "example": ""
+            }
+          }
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "用戶ID"
+            },
+            "name": {
+              "type": "string",
+              "example": "用戶名"
+            },
+            "email": {
+              "type": "string",
+              "example": "用戶E-mail"
+            },
+            "photo": {
+              "type": "string",
+              "example": "頭貼網址"
+            },
+            "sex": {
+              "type": "string",
+              "example": "[male、female]"
+            }
+          }
+        }
+      }
+    },
+    "updatePassword": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "用戶ID"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "用戶名"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "用戶E-mail"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "頭貼網址"
+                },
+                "sex": {
+                  "type": "string",
+                  "example": "[male、female]"
+                }
+              }
+            },
+            "token": {
+              "type": "string",
+              "example": ""
             }
           }
         }
