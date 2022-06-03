@@ -10,8 +10,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Email為必填'],
       unique: true,
-      lowercase: true,
-      select: false
+      lowercase: true
     },
     photo: {
       type: String,
@@ -19,7 +18,11 @@ const userSchema = new mongoose.Schema(
     },
     sex: {
       type: String,
-      enum: ['male', 'female']
+      enum: {
+        values: ['male', 'female'],
+        message: '僅接受 male、female',
+      },
+      default: 'male'
     },
     password: {
       type: String,

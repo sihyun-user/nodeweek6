@@ -63,12 +63,6 @@ exports.login = catchAsync(async(req, res, next) => {
   handleVerify.generateSendJWT(user, res)
 });
 
-exports.getProfile = catchAsync(async(req, res, next) => {
-  const userId = req.user._id;
-  const data = await User.findById()
-  appSuccess({res, data: req.user})
-});
-
 exports.updatePassword = catchAsync(async(req, res, next) => {
   const { password, confirmPassword } = req.body;
 
@@ -84,7 +78,21 @@ exports.updatePassword = catchAsync(async(req, res, next) => {
 
   const user = await User.findByIdAndUpdate(req.user._id, {
     password: newPassword
-  });
+  }).exec();
 
   handleVerify.generateSendJWT(user, res);
 });
+
+exports.getProfile = catchAsync(async(req, res, next) => {
+  appSuccess({res, data: req.user})
+});
+
+exports.updateProfile = catchAsync(async(req, res, next) => {
+  const userId = req.user._id;
+  const { name, sex, photo } = req.body;
+  const data = await User.findByIdAndUpdate(userId, {
+    name, sex, photo
+  },{new: true, runValidators: true}).exec();
+
+  appSuccess({res, data})
+})

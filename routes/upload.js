@@ -10,6 +10,7 @@ router
     /*
       #swagger.tags = ['Upload - 圖片']
       #swagger.description = '取得所有圖片 API'
+      #swagger.security = [{'api_key': ['apiKeyAuth']}]
       #swagger.responses[200] = { 
         description: '圖片資訊',
         schema: { $ref: '#/definitions/getImages' }
@@ -21,7 +22,7 @@ router
     /*
       #swagger.tags = ['Upload - 圖片']
       #swagger.description = '刪除全部圖片 API'
-      #swagger.security = [{'apikeyAuth': []}]
+      #swagger.security = [{'api_key': ['apiKeyAuth']}]
       #swagger.responses[200] = {
         description: '圖片資訊',
         schema: {
@@ -39,6 +40,7 @@ router
     /*
       #swagger.tags = ['Upload - 圖片']
       #swagger.description = '上傳圖片 API'
+      #swagger.security = [{'api_key': ['apiKeyAuth']}]
       #swagger.consumes = ['multipart/form-data']
       #swagger.parameters['singleFile'] = {
         in: 'formData',
