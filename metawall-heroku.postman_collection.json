@@ -7,16 +7,22 @@
 	},
 	"item": [
 		{
-			"name": "posts",
+			"name": "post",
 			"item": [
 				{
-					"name": "取得貼文",
+					"name": "取得所有貼文",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "",
@@ -27,7 +33,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts?timeSort=asc&q=&user_id=6289364836fd8fd3971f6841",
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts?user_id=",
 							"protocol": "https",
 							"host": [
 								"fast-mountain-34375",
@@ -41,15 +47,17 @@
 							"query": [
 								{
 									"key": "timeSort",
-									"value": "asc"
+									"value": "desc",
+									"disabled": true
 								},
 								{
 									"key": "q",
-									"value": ""
+									"value": "",
+									"disabled": true
 								},
 								{
 									"key": "user_id",
-									"value": "6289364836fd8fd3971f6841"
+									"value": ""
 								}
 							]
 						}
@@ -67,8 +75,7 @@
 							{
 								"key": "Authorization",
 								"value": "{{token}}",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							}
 						],
 						"body": {
@@ -81,17 +88,16 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/post/123",
-							"protocol": "https",
+							"raw": "http://localhost:3005/api/post/",
+							"protocol": "http",
 							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "3005",
 							"path": [
 								"api",
 								"post",
-								"123"
+								""
 							]
 						}
 					},
@@ -101,10 +107,16 @@
 					"name": "新增單筆貼文",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"user\": \"6289364836fd8fd3971f6841\",\r\n  \"content\": \"測試001\",\r\n  \"image\": \"https://i.imgur.com/UV27jJ5.jpg\"\r\n}",
+							"raw": "{  \"content\": \"貼文測試01\",\r\n   \"image\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -128,10 +140,16 @@
 					"response": []
 				},
 				{
-					"name": "刪除所有貼文",
+					"name": "刪除單筆貼文",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "",
@@ -142,13 +160,48 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/posts",
-							"protocol": "https",
+							"raw": "http://localhost:3005/api/post/62997d2a5d513381dbd0e48c",
+							"protocol": "http",
 							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "3005",
+							"path": [
+								"api",
+								"post",
+								"62997d2a5d513381dbd0e48c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除所有貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3005/api/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3005",
 							"path": [
 								"api",
 								"posts"
@@ -158,44 +211,19 @@
 					"response": []
 				},
 				{
-					"name": "刪除單筆貼文",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/post/123",
-							"protocol": "https",
-							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"api",
-								"post",
-								"123"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "編輯單筆貼文",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"content\": \"今日天氣雨 :((\",\r\n  \"image\": \"\"\r\n}",
+							"raw": "{\r\n  \"content\": \"修改01\",\r\n  \"image\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -203,17 +231,16 @@
 							}
 						},
 						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/post/123",
-							"protocol": "https",
+							"raw": "http://localhost:3005/api/post/62997cd9d007248fc9917bfa",
+							"protocol": "http",
 							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "3005",
 							"path": [
 								"api",
 								"post",
-								"123"
+								"62997cd9d007248fc9917bfa"
 							]
 						}
 					},
@@ -222,69 +249,19 @@
 			]
 		},
 		{
-			"name": "users",
-			"item": [
-				{
-					"name": "取得所有用戶",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/users",
-							"protocol": "https",
-							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "新增用戶",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"harry\",\r\n    \"email\": \"harry@gmail.com\",\r\n    \"photo\": \"\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://fast-mountain-34375.herokuapp.com/api/user",
-							"protocol": "https",
-							"host": [
-								"fast-mountain-34375",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"api",
-								"user"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "uploads",
+			"name": "upload",
 			"item": [
 				{
 					"name": "取得所有圖片",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "https://fast-mountain-34375.herokuapp.com/api/uploads",
 							"protocol": "https",
@@ -296,6 +273,13 @@
 							"path": [
 								"api",
 								"uploads"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "{{token}}",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -305,7 +289,13 @@
 					"name": "上傳圖片",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -313,7 +303,7 @@
 									"key": "image",
 									"contentType": "image/jpeg",
 									"type": "file",
-									"src": "/C:/Users/User/Desktop/image2.jpg"
+									"src": "/C:/Users/User/Desktop/pika.jpg"
 								}
 							]
 						},
@@ -328,6 +318,214 @@
 							"path": [
 								"api",
 								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除所有圖片",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/uploads?Authorization={{token}}",
+							"protocol": "https",
+							"host": [
+								"fast-mountain-34375",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"uploads"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "取得用戶資料",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/user/profile",
+							"protocol": "https",
+							"host": [
+								"fast-mountain-34375",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改用戶資料",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"sihyun\",\r\n    \"sex\": \"female\",\r\n    \"photo\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/user/profile",
+							"protocol": "https",
+							"host": [
+								"fast-mountain-34375",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登入",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"sihyun@gmail.com\",\r\n    \"password\": \"sihyun123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/user/login",
+							"protocol": "https",
+							"host": [
+								"fast-mountain-34375",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "註冊",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"name\": \"sihyun\",\r\n    \"email\": \"sihyun@gmail.com\",\r\n    \"password\": \"sihyun123456\",\r\n    \"confirmPassword\": \"sihyun123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/user/signup",
+							"protocol": "https",
+							"host": [
+								"fast-mountain-34375",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新密碼",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"sihyun123456\",\r\n    \"confirmPassword\": \"sihyun123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fast-mountain-34375.herokuapp.com/api/user/updatePassword",
+							"protocol": "https",
+							"host": [
+								"fast-mountain-34375",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"user",
+								"updatePassword"
 							]
 						}
 					},
