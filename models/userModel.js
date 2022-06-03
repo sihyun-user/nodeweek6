@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: {
         values: ['male', 'female'],
-        message: '僅接受 male、female',
+        message: 'sex 僅接受 male、female',
       },
       default: 'male'
     },

@@ -91,7 +91,7 @@ exports.updateProfile = catchAsync(async(req, res, next) => {
   const userId = req.user._id;
   const { name, sex, photo } = req.body;
 
-  if (sex !== 'male' || sex !== 'female') {
+  if (sex !== 'male' && sex !== 'female') {
     return appError({statusCode: 400, message:'sex 僅接受 male、female'}, next);
   }
 
