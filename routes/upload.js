@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UploadsControllers = require('../controllers/upload');
-const { uploadModule } = require('../service/uploadHnadle');
+const upload = require('../service/image');
 const { isAuth } = require('../service/appVerify');
 
 router
@@ -36,7 +36,7 @@ router
 
 router
   .route('/upload')
-  .post(isAuth,
+  .post(isAuth, upload,
     /*
       #swagger.tags = ['Upload - 圖片']
       #swagger.description = '上傳圖片 API'
@@ -57,7 +57,7 @@ router
         schema: { $ref: '#/definitions/uploadImage' }
       }
     */
-    uploadModule.single('image'), UploadsControllers.uploadImage
+    UploadsControllers.uploadImage
   );
 
 
