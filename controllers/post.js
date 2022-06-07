@@ -12,7 +12,7 @@ exports.getAllPost = catchAsync(async(req, res, next) => {
   // 檢查 ObjectId 型別是否有誤
   if (query.user_id && !checkId(query.user_id)) {
     return appError(apiState.ID_ERROR, next);
-  }
+  };
 
   // 貼文關鍵字搜尋與篩選
   const timeSort = query.timeSort == 'asc' ? 'createdAt' : '-createdAt';
@@ -20,7 +20,7 @@ exports.getAllPost = catchAsync(async(req, res, next) => {
   const userId = query.user_id ? {user: query.user_id} : {};
   const data = await Post.find({...userId, ...q}).populate({
     path: 'user',
-    select: '_id name photo'
+    select: '_id name photo likes'
   }).sort(timeSort);
 
   appSuccess({res, data});
@@ -56,8 +56,8 @@ exports.createPost = catchAsync(async(req, res, next) => {
   });
 
   appSuccess({res, data});
-})
-;
+});
+
 exports.updatePost = catchAsync(async(req, res, next) => {
   const postId = req.params.post_id;
   const { image, content } = req.body;

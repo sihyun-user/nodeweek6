@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const UploadsControllers = require('../controllers/upload');
+const UploadControllers = require('../controllers/upload');
 const upload = require('../service/image');
 const { isAuth } = require('../service/appVerify');
 
@@ -16,7 +16,7 @@ router
         schema: { $ref: '#/definitions/getImages' }
       }
     */
-    UploadsControllers.getAllImage
+    UploadControllers.getAllImage
   )
   .delete(isAuth,
     /*
@@ -31,7 +31,7 @@ router
         }
       }
     */
-    UploadsControllers.deleteAllImage
+    UploadControllers.deleteAllImage
   );
 
 router
@@ -57,7 +57,7 @@ router
         schema: { $ref: '#/definitions/uploadImage' }
       }
     */
-    UploadsControllers.uploadImage
+    UploadControllers.uploadImage
   );
 
 

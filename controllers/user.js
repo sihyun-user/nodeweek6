@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Post = require('../models/postModel');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
@@ -84,6 +85,7 @@ exports.updatePassword = catchAsync(async(req, res, next) => {
 });
 
 exports.getProfile = catchAsync(async(req, res, next) => {
+  console.log(req.user)
   appSuccess({res, data: req.user})
 });
 
@@ -104,4 +106,17 @@ exports.updateProfile = catchAsync(async(req, res, next) => {
   },{new: true, runValidators: true}).exec();
 
   appSuccess({res, data})
-})
+});
+
+exports.getUserPostWall = catchAsync(async(req, res, next) => {
+  const userId = req.params.user_id;
+
+  // 檢查 ObjectId 型別是否有誤
+  if (userId && !handleVerify.checkId(userId)) {
+    return appError(apiState.ID_ERROR, next);
+  };
+
+  const data = await Post.find({ user: userId }).exec();
+
+  appSuccess({ res, data });
+});

@@ -3,6 +3,8 @@ const router = express.Router();
 const UserControllers = require('../controllers/user');
 const { isAuth } = require('../service/appVerify');
 
+router.get('/user/:user_id', isAuth, UserControllers.getUserPostWall);
+
 router.post('/user/signup',
   /*
     #swagger.tags = ['User - 用戶']

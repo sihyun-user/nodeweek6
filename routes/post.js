@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const PostsControllers = require('../controllers/post');
+const PostControllers = require('../controllers/post');
 const { isAuth } = require('../service/appVerify');
 
 router
@@ -30,7 +30,7 @@ router
         schema: { $ref: '#/definitions/getPosts' }
       }
     */
-    PostsControllers.getAllPost
+    PostControllers.getAllPost
   )
   .delete(isAuth,
     /*
@@ -45,7 +45,7 @@ router
         }
       }
     */
-    PostsControllers.deleteAllPost
+    PostControllers.deleteAllPost
   );
 
 router
@@ -73,7 +73,7 @@ router
         }
       }
     */
-    PostsControllers.createPost
+    PostControllers.createPost
   );
 
 router
@@ -88,7 +88,7 @@ router
         schema: { $ref: '#/definitions/getOnePost' }
       }
     */
-    PostsControllers.getOnePost
+    PostControllers.getOnePost
   )
   .patch(isAuth,
     /*
@@ -113,7 +113,7 @@ router
         }
       }
     */
-    PostsControllers.updatePost
+    PostControllers.updatePost
   )
   .delete(isAuth,
     /*
@@ -128,7 +128,7 @@ router
         }
       }
     */
-    PostsControllers.deleteOnePost
+    PostControllers.deleteOnePost
   );
 
 module.exports = router
