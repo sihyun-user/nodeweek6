@@ -6,19 +6,14 @@ const appError = require('../service/appError');
 const apiState = require('../service/apiState');  
 const { checkId } = require('../service/appVerify');
 
-exports.getAllPost = catchAsync(async(req, res, next) => {
+// 取得所有貼文 API
+exports.getAllPosts = catchAsync(async(req, res, next) => {
   const query = req.query;
-
-  // 檢查 ObjectId 型別是否有誤
-  if (query.user_id && !checkId(query.user_id)) {
-    return appError(apiState.ID_ERROR, next);
-  };
 
   // 貼文關鍵字搜尋與篩選
   const timeSort = query.timeSort == 'asc' ? 'createdAt' : '-createdAt';
   const q = query.q !== undefined ? {'content': new RegExp(query.q)} : {};
-  const userId = query.user_id ? {user: query.user_id} : {};
-  const data = await Post.find({...userId, ...q}).populate({
+  const data = await Post.find(q).populate({
     path: 'user',
     select: '_id name photo likes'
   }).sort(timeSort);
@@ -26,6 +21,24 @@ exports.getAllPost = catchAsync(async(req, res, next) => {
   appSuccess({res, data});
 });
 
+// 取得會員貼文 API
+exports.getUserPosts = catchAsync(async(req, res, next) => {
+  const userID = req.params.user_id;
+
+  // 檢查 ObjectId 型別是否有誤
+  if (userID && !checkId(userID)) {
+    return appError(apiState.ID_ERROR, next);
+  };
+
+  const user= await User.findById(userID);
+  if (!user) return appError(apiState.DATA_NOT_FOUND, next);
+
+  const data = await Post.find({ user: userID }).exec();
+
+  appSuccess({ res, data });
+});
+
+// 取得一則貼文 API
 exports.getOnePost = catchAsync(async(req, res, next) => {
   const postId = req.params.post_id;
 
@@ -44,6 +57,7 @@ exports.getOnePost = catchAsync(async(req, res, next) => {
   appSuccess({res, data})
 });
 
+// 新增一則貼文 API
 exports.createPost = catchAsync(async(req, res, next) => {
   const { content, image } = req.body;
 
@@ -58,6 +72,7 @@ exports.createPost = catchAsync(async(req, res, next) => {
   appSuccess({res, data});
 });
 
+// 編輯一則貼文 API
 exports.updatePost = catchAsync(async(req, res, next) => {
   const postId = req.params.post_id;
   const { image, content } = req.body;
@@ -79,6 +94,7 @@ exports.updatePost = catchAsync(async(req, res, next) => {
   appSuccess({res, message:'編輯此筆貼文成功'})
 });
 
+// 刪除一則貼文 API
 exports.deleteOnePost = catchAsync(async(req, res, next) => {
   const postId = req.params.post_id;
 
@@ -94,7 +110,38 @@ exports.deleteOnePost = catchAsync(async(req, res, next) => {
   appSuccess({res, message:'刪除此筆貼文成功'});
 });
 
-exports.deleteAllPost = catchAsync(async(req, res, next) => {
-  await Post.deleteMany();
-  appSuccess({res, message:'刪除所有貼文成功'});
+// 新增一則貼文的按讚 API
+exports.addPostLike = catchAsync(async(req, res, next) => {
+  const postId = req.params.post_id;
+
+  // 檢查 ObjectId 型別是否有誤
+  if (postId && !checkId(postId)) {
+    return appError(apiState.ID_ERROR, next);
+  };
+  
+  const data = await Post.findOneAndUpdate({ _id: postId }, {
+    $addToSet: { likes: req.user.id }
+  },{new: true}).exec();
+
+  if (!data) return appError(apiState.DATA_NOT_FOUND, next);
+
+  appSuccess({ res, message: '貼文按讚成功' });
+});
+
+// 取消一則貼文的按讚 API
+exports.canclePostLike = catchAsync(async(req, res, next) => {
+  const postId = req.params.post_id;
+
+  // 檢查 ObjectId 型別是否有誤
+  if (postId && !checkId(postId)) {
+    return appError(apiState.ID_ERROR, next);
+  };
+  
+  const data = await Post.findOneAndUpdate({ _id: postId }, {
+    $pull: { likes: req.user._id }
+  }).exec();
+
+  if (!data) return appError(apiState.DATA_NOT_FOUND, next);
+
+  appSuccess({ res, message: '貼文取消按讚成功' });
 });

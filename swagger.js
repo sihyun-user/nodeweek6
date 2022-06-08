@@ -21,14 +21,14 @@ const doc = {
       data: [{
         _id: '貼文ID',
         user: {
-          _id: '用戶ID',
-          name: '用戶名',
+          _id: '會員ID',
+          name: '會員名',
           photo: '頭貼網址'
         },
         content: '貼文內容',
         image: '圖片網址',
-        likes: 0,
-        createdAt: '2022-05-11T14:45:41.770Z'
+        likes: ['會員ID'],
+        createdAt: '建立時間'
       }]
     },
     getOnePost: {
@@ -36,14 +36,14 @@ const doc = {
       data: {
         _id: '貼文ID',
         user: {
-          _id: '用戶ID',
-          name: '用戶名',
+          _id: '會員ID',
+          name: '會員名',
           photo: '頭貼網址'
         },
         content: '貼文內容',
         image: '圖片網址',
-        likes: 0,
-        createdAt: '2022-05-11T14:45:41.770Z'
+        likes: ['會員ID'],
+        createdAt: '建立時間'
       }
     },
     uploadImage: {
@@ -51,7 +51,7 @@ const doc = {
       data: {
         _id: '圖片ID',
         url: '圖片網址',
-        createdAt: '2022-05-11T14:45:41.770Z'
+        createdAt: '建立時間'
       }
     },
     getImages: {
@@ -59,30 +59,18 @@ const doc = {
       data: [{
         _id: '圖片ID',
         url: '圖片網址',
-        createdAt: '2022-05-11T14:45:41.770Z'
+        createdAt: '建立時間'
       }]
     },
-    login: {
+    auth: {
       status: true,
       data: {
         user: {
-          _id: '用戶ID',
-          name: '用戶名',
-          email: '用戶E-mail',
-          photo: '頭貼網址'
-        },
-        token: ''
-      }
-    },
-    signup: {
-      status: true,
-      data: {
-        user: {
-          _id: '用戶ID',
-          name: '用戶名',
-          email: '用戶E-mail',
+          _id: '會員ID',
+          name: '會員名',
+          email: '會員E-mail',
           photo: '頭貼網址',
-          createdAt: '2022-06-02T03:28:54.975Z'
+          sex: '[male、female]'
         },
         token: ''
       }
@@ -90,9 +78,9 @@ const doc = {
     profile: {
       status: true,
       data: {
-        _id: '用戶ID',
-        name: '用戶名',
-        email: '用戶E-mail',
+        _id: '會員ID',
+        name: '會員名',
+        email: '會員E-mail',
         photo: '頭貼網址',
         sex: '[male、female]'
       }
@@ -101,14 +89,26 @@ const doc = {
       status: true,
       data: {
         user: {
-          _id: '用戶ID',
-          name: '用戶名',
-          email: '用戶E-mail',
+          _id: '會員ID',
+          name: '會員名',
+          email: '會員E-mail',
           photo: '頭貼網址',
           sex: '[male、female]'
         },
         token: ''
       }
+    },
+    getLikeList: {
+      status: true,
+      data: [{ 
+        _id: '貼文ID',
+        user: {
+          _id: '會員ID',
+          name: '會員名',
+          photo: '頭貼網址'
+        },
+        createdAt: '建立時間'
+      }]
     }
   }
 };

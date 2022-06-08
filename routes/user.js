@@ -3,11 +3,9 @@ const router = express.Router();
 const UserControllers = require('../controllers/user');
 const { isAuth } = require('../service/appVerify');
 
-router.get('/user/:user_id', isAuth, UserControllers.getUserPostWall);
-
 router.post('/user/signup',
   /*
-    #swagger.tags = ['User - 用戶']
+    #swagger.tags = ['User - 會員']
     #swagger.description = '註冊 API'
     #swagger.parameters['body'] = {
       in: 'body',
@@ -23,7 +21,7 @@ router.post('/user/signup',
     }
     #swagger.responses[200] = { 
       description: '註冊資訊',
-      schema: { $ref: '#/definitions/login' }
+      schema: { $ref: '#/definitions/auth' }
     }
   */
   UserControllers.signup
@@ -31,7 +29,7 @@ router.post('/user/signup',
 
 router.post('/user/login',
   /*
-    #swagger.tags = ['User - 用戶']
+    #swagger.tags = ['User - 會員']
     #swagger.description = '登入 API'
     #swagger.parameters['body'] = {
       in: 'body',
@@ -45,7 +43,7 @@ router.post('/user/login',
     }
     #swagger.responses[200] = { 
       description: '登入資訊',
-      schema: { $ref: '#/definitions/login' }
+      schema: { $ref: '#/definitions/auth' }
     }
   */
   UserControllers.login
@@ -53,7 +51,7 @@ router.post('/user/login',
 
 router.post('/user/updatePassword', isAuth, 
   /*
-    #swagger.tags = ['User - 用戶']
+    #swagger.tags = ['User - 會員']
     #swagger.description = '更新密碼 API'
     #swagger.security = [{'api_key': ['apiKeyAuth']}]
     #swagger.parameters['body'] = {
@@ -68,7 +66,10 @@ router.post('/user/updatePassword', isAuth,
     }
     #swagger.responses[200] = { 
       description: '更新密碼資訊',
-      schema: { $ref: '#/definitions/updatePassword' }
+      schema: { 
+        status: true,
+        message: '更新密碼成功'
+      }
     }
   */
   UserControllers.updatePassword
@@ -78,11 +79,11 @@ router
   .route('/user/profile')
   .get(isAuth, 
     /*
-      #swagger.tags = ['User - 用戶']
-      #swagger.description = '取得用戶資料 API'
+      #swagger.tags = ['User - 會員']
+      #swagger.description = '取得會員資料 API'
       #swagger.security = [{'api_key': ['apiKeyAuth']}]
       #swagger.responses[200] = { 
-        description: '用戶資訊',
+        description: '會員資訊',
         schema: { $ref: '#/definitions/profile' }
       }
     */
@@ -90,8 +91,8 @@ router
   )
   .patch(isAuth, 
     /*
-      #swagger.tags = ['User - 用戶']
-      #swagger.description = '更新用戶資料 API'
+      #swagger.tags = ['User - 會員']
+      #swagger.description = '更新會員資料 API'
       #swagger.security = [{'api_key': ['apiKeyAuth']}]
       #swagger.parameters['body'] = {
         in: 'body',
@@ -105,7 +106,7 @@ router
         }
       }
       #swagger.responses[200] = { 
-        description: '更新用戶資訊',
+        description: '會員資訊',
         schema: { $ref: '#/definitions/profile' }
       }
     */

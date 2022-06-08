@@ -23,7 +23,7 @@
     "/api/user/signup": {
       "post": {
         "tags": [
-          "User - 用戶"
+          "User - 會員"
         ],
         "description": "註冊 API",
         "parameters": [
@@ -65,7 +65,7 @@
           "200": {
             "description": "註冊資訊",
             "schema": {
-              "$ref": "#/definitions/login"
+              "$ref": "#/definitions/auth"
             }
           }
         }
@@ -74,7 +74,7 @@
     "/api/user/login": {
       "post": {
         "tags": [
-          "User - 用戶"
+          "User - 會員"
         ],
         "description": "登入 API",
         "parameters": [
@@ -106,7 +106,7 @@
           "200": {
             "description": "登入資訊",
             "schema": {
-              "$ref": "#/definitions/login"
+              "$ref": "#/definitions/auth"
             }
           }
         }
@@ -115,7 +115,7 @@
     "/api/user/updatePassword": {
       "post": {
         "tags": [
-          "User - 用戶"
+          "User - 會員"
         ],
         "description": "更新密碼 API",
         "parameters": [
@@ -147,7 +147,20 @@
           "200": {
             "description": "更新密碼資訊",
             "schema": {
-              "$ref": "#/definitions/updatePassword"
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "更新密碼成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
             }
           }
         },
@@ -163,13 +176,13 @@
     "/api/user/profile": {
       "get": {
         "tags": [
-          "User - 用戶"
+          "User - 會員"
         ],
-        "description": "取得用戶資料 API",
+        "description": "取得會員資料 API",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "用戶資訊",
+            "description": "會員資訊",
             "schema": {
               "$ref": "#/definitions/profile"
             }
@@ -185,9 +198,9 @@
       },
       "patch": {
         "tags": [
-          "User - 用戶"
+          "User - 會員"
         ],
-        "description": "更新用戶資料 API",
+        "description": "更新會員資料 API",
         "parameters": [
           {
             "name": "body",
@@ -219,7 +232,7 @@
         ],
         "responses": {
           "200": {
-            "description": "更新用戶資訊",
+            "description": "會員資訊",
             "schema": {
               "$ref": "#/definitions/profile"
             }
@@ -252,12 +265,6 @@
             "in": "query",
             "type": "String",
             "description": "關鍵字搜尋"
-          },
-          {
-            "name": "user_id",
-            "in": "query",
-            "type": "String",
-            "description": "用戶 ID"
           }
         ],
         "responses": {
@@ -275,31 +282,27 @@
             ]
           }
         ]
-      },
-      "delete": {
+      }
+    },
+    "/api/posts/{user_id}": {
+      "get": {
         "tags": [
           "Post - 貼文"
         ],
-        "description": "刪除全部貼文 API",
-        "parameters": [],
+        "description": "取得會員貼文 API",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "貼文資訊",
             "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string",
-                  "example": "刪除所有貼文成功"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/getPosts"
             }
           }
         },
@@ -509,6 +512,94 @@
         ]
       }
     },
+    "/api/post/like-add/{post_id}": {
+      "post": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "貼文按讚 API",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "貼文按讚成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/post/like-cancle/{post_id}": {
+      "post": {
+        "tags": [
+          "Post - 貼文"
+        ],
+        "description": "取消貼文按讚 API",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取消貼文按讚成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      }
+    },
     "/api/uploads": {
       "get": {
         "tags": [
@@ -614,6 +705,30 @@
           }
         ]
       }
+    },
+    "/api/likes": {
+      "get": {
+        "tags": [
+          "Like - 按讚"
+        ],
+        "description": "取得個人按讚列表 API",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "按讚資訊",
+            "schema": {
+              "$ref": "#/definitions/getLikeList"
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "apiKeyAuth"
+            ]
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -638,11 +753,11 @@
                 "properties": {
                   "_id": {
                     "type": "string",
-                    "example": "用戶ID"
+                    "example": "會員ID"
                   },
                   "name": {
                     "type": "string",
-                    "example": "用戶名"
+                    "example": "會員名"
                   },
                   "photo": {
                     "type": "string",
@@ -659,12 +774,17 @@
                 "example": "圖片網址"
               },
               "likes": {
-                "type": "number",
-                "example": 0
+                "type": "array",
+                "example": [
+                  "會員ID"
+                ],
+                "items": {
+                  "type": "string"
+                }
               },
               "createdAt": {
                 "type": "string",
-                "example": "2022-05-11T14:45:41.770Z"
+                "example": "建立時間"
               }
             }
           }
@@ -690,11 +810,11 @@
               "properties": {
                 "_id": {
                   "type": "string",
-                  "example": "用戶ID"
+                  "example": "會員ID"
                 },
                 "name": {
                   "type": "string",
-                  "example": "用戶名"
+                  "example": "會員名"
                 },
                 "photo": {
                   "type": "string",
@@ -711,12 +831,17 @@
               "example": "圖片網址"
             },
             "likes": {
-              "type": "number",
-              "example": 0
+              "type": "array",
+              "example": [
+                "會員ID"
+              ],
+              "items": {
+                "type": "string"
+              }
             },
             "createdAt": {
               "type": "string",
-              "example": "2022-05-11T14:45:41.770Z"
+              "example": "建立時間"
             }
           }
         }
@@ -742,7 +867,7 @@
             },
             "createdAt": {
               "type": "string",
-              "example": "2022-05-11T14:45:41.770Z"
+              "example": "建立時間"
             }
           }
         }
@@ -770,14 +895,14 @@
               },
               "createdAt": {
                 "type": "string",
-                "example": "2022-05-11T14:45:41.770Z"
+                "example": "建立時間"
               }
             }
           }
         }
       }
     },
-    "login": {
+    "auth": {
       "type": "object",
       "properties": {
         "status": {
@@ -792,62 +917,23 @@
               "properties": {
                 "_id": {
                   "type": "string",
-                  "example": "用戶ID"
+                  "example": "會員ID"
                 },
                 "name": {
                   "type": "string",
-                  "example": "用戶名"
+                  "example": "會員名"
                 },
                 "email": {
                   "type": "string",
-                  "example": "用戶E-mail"
-                },
-                "photo": {
-                  "type": "string",
-                  "example": "頭貼網址"
-                }
-              }
-            },
-            "token": {
-              "type": "string",
-              "example": ""
-            }
-          }
-        }
-      }
-    },
-    "signup": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "boolean",
-          "example": true
-        },
-        "data": {
-          "type": "object",
-          "properties": {
-            "user": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "example": "用戶ID"
-                },
-                "name": {
-                  "type": "string",
-                  "example": "用戶名"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "用戶E-mail"
+                  "example": "會員E-mail"
                 },
                 "photo": {
                   "type": "string",
                   "example": "頭貼網址"
                 },
-                "createdAt": {
+                "sex": {
                   "type": "string",
-                  "example": "2022-06-02T03:28:54.975Z"
+                  "example": "[male、female]"
                 }
               }
             },
@@ -871,15 +957,15 @@
           "properties": {
             "_id": {
               "type": "string",
-              "example": "用戶ID"
+              "example": "會員ID"
             },
             "name": {
               "type": "string",
-              "example": "用戶名"
+              "example": "會員名"
             },
             "email": {
               "type": "string",
-              "example": "用戶E-mail"
+              "example": "會員E-mail"
             },
             "photo": {
               "type": "string",
@@ -908,15 +994,15 @@
               "properties": {
                 "_id": {
                   "type": "string",
-                  "example": "用戶ID"
+                  "example": "會員ID"
                 },
                 "name": {
                   "type": "string",
-                  "example": "用戶名"
+                  "example": "會員名"
                 },
                 "email": {
                   "type": "string",
-                  "example": "用戶E-mail"
+                  "example": "會員E-mail"
                 },
                 "photo": {
                   "type": "string",
@@ -931,6 +1017,48 @@
             "token": {
               "type": "string",
               "example": ""
+            }
+          }
+        }
+      }
+    },
+    "getLikeList": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean",
+          "example": true
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "貼文ID"
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "會員ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "會員名"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "example": "頭貼網址"
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "建立時間"
+              }
             }
           }
         }

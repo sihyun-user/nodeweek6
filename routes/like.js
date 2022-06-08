@@ -5,11 +5,18 @@ const { isAuth } = require('../service/appVerify');
 
 router
   .route('/likes')
-  .get(isAuth, likeControllers.getLikeList);
+  .get(isAuth, 
+    /*
+      #swagger.tags = ['Like - 按讚']
+      #swagger.description = '取得個人按讚列表 API'
+      #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+      #swagger.responses[200] = { 
+        description: '按讚資訊',
+        schema: { $ref: '#/definitions/getLikeList' }
+      }
+    */
+    likeControllers.getLikeList
+  );
 
-router
-  .route('/like/:post_id')
-  .post(isAuth, likeControllers.updatePostLike)
-  .delete(isAuth, likeControllers.deletePostLike);
 
 module.exports = router
