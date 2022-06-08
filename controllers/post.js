@@ -1,5 +1,6 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
+const Comment = require('../models/commentModel');
 const catchAsync = require('../service/catchAsync');
 const appSuccess = require('../service/appSuccess');
 const appError = require('../service/appError');
@@ -16,6 +17,9 @@ exports.getAllPosts = catchAsync(async(req, res, next) => {
   const data = await Post.find(q).populate({
     path: 'user',
     select: '_id name photo likes'
+  }).populate({
+    path: 'comments',
+    select: 'comment user'
   }).sort(timeSort);
 
   appSuccess({res, data});
@@ -144,4 +148,24 @@ exports.canclePostLike = catchAsync(async(req, res, next) => {
   if (!data) return appError(apiState.DATA_NOT_FOUND, next);
 
   appSuccess({ res, message: '貼文取消按讚成功' });
+});
+
+// 新增一則貼文的留言 API 
+exports.craetePostComment = catchAsync(async(req, res, next) => {
+  const user = req.user._id;
+  const post =  req.params.post_id;
+  const { comment } = req.body;
+
+  if (!comment) return (apiState.DATA_NOT_FOUND, next);
+
+  // 檢查 ObjectId 型別是否有誤
+  if (post && !checkId(post)) {
+    return appError(apiState.ID_ERROR, next);
+  };
+
+  const data = await Comment.create({
+    post, user, comment
+  });
+
+  appSuccess({ res, data })
 });

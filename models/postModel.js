@@ -27,9 +27,19 @@ const postSchema = new mongoose.Schema(
     }
   },
   {
-    versionKey: false
+    versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
 );
+
+// 在 postSchema 建立虛擬的 comments，引用 comment model 的 post，找出有相同 _id 的物件放入 comments
+postSchema.virtual('comments', {
+  ref: 'comment',
+  foreignField: 'post',
+  localField: '_id'
+});
+
 const Post = mongoose.model('Post', postSchema)
 
 module.exports = Post

@@ -154,4 +154,17 @@ router.post('/post/:post_id/unlike', isAuth,
   PostControllers.canclePostLike
 );
 
+router.post('/post/:post_id/comment', isAuth, 
+  /*
+    #swagger.tags = ['Post - 貼文']
+    #swagger.description = '新增一則貼文的留言 API'
+    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+    #swagger.responses[200] = {
+      description: '貼文留言資訊',
+      schema: { $ref: '#/definitions/craetePostComment' }
+    }
+  */
+  PostControllers.craetePostComment
+);
+
 module.exports = router

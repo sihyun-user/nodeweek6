@@ -109,6 +109,16 @@ const doc = {
         },
         createdAt: '建立時間'
       }]
+    },
+    craetePostComment: {
+      status: true,
+      data: {
+        comment: '留言內容',
+        user: '會員ID',
+        post: '貼文ID',
+        _id: '留言ID',
+        createdAt: '建立時間'
+      }
     }
   }
 };
