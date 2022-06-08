@@ -122,7 +122,7 @@ router
     PostControllers.deleteOnePost
   );
 
-router.post('/post/like-add/:post_id', isAuth, 
+router.post('/post/:post_id/like', isAuth, 
   /*
     #swagger.tags = ['Post - 貼文']
     #swagger.description = '貼文按讚 API'
@@ -138,7 +138,7 @@ router.post('/post/like-add/:post_id', isAuth,
   PostControllers.addPostLike
 );
 
-router.post('/post/like-cancle/:post_id', isAuth,
+router.post('/post/:post_id/unlike', isAuth,
   /*
     #swagger.tags = ['Post - 貼文']
     #swagger.description = '取消貼文按讚 API'

@@ -8,6 +8,7 @@ const appError = require('../service/appError');
 const apiState = require('../service/apiState'); 
 const { generateSendJWT } = require('../service/appVerify');
 
+// 註冊
 exports.signup = catchAsync(async(req, res, next) => {
   let { email, password, confirmPassword, name } = req.body;
   // 內容不為空
@@ -43,6 +44,7 @@ exports.signup = catchAsync(async(req, res, next) => {
   generateSendJWT(newUser, res)
 }); 
 
+// 登入
 exports.login = catchAsync(async(req, res, next) => {
   const { email, password } = req.body;
   
@@ -63,6 +65,7 @@ exports.login = catchAsync(async(req, res, next) => {
   generateSendJWT(user, res)
 });
 
+// 更新密碼
 exports.updatePassword = catchAsync(async(req, res, next) => {
   const { password, confirmPassword } = req.body;
   // 內容不為空
@@ -87,10 +90,12 @@ exports.updatePassword = catchAsync(async(req, res, next) => {
   appSuccess({ res, message: '更新密碼成功' })
 });
 
+// 取得會員資料
 exports.getProfile = catchAsync(async(req, res, next) => {
   appSuccess({res, data: req.user})
 });
 
+// 編輯會員資料
 exports.updateProfile = catchAsync(async(req, res, next) => {
   const userId = req.user._id;
   const { name, sex, photo } = req.body;
