@@ -16,11 +16,10 @@ exports.getAllPosts = catchAsync(async(req, res, next) => {
   const q = query.q !== undefined ? {'content': new RegExp(query.q)} : {};
   const data = await Post.find(q).populate({
     path: 'user',
-    select: '_id name photo likes'
+    select: 'name photo'
   }).populate({
-    path: 'comments',
-    select: 'comment user'
-  }).sort(timeSort);
+    path: 'comments'
+  }).sort(timeSort).exec();
 
   appSuccess({res, data});
 });
@@ -53,7 +52,7 @@ exports.getOnePost = catchAsync(async(req, res, next) => {
 
   const data = await Post.findById(postId).populate({
     path: 'user',
-    select: '_id name photo'
+    select: 'name photo'
   }).exec();
 
   if (!data) return appError(apiState.DATA_NOT_FOUND, next);
@@ -124,7 +123,7 @@ exports.addPostLike = catchAsync(async(req, res, next) => {
   };
   
   const data = await Post.findOneAndUpdate({ _id: postId }, {
-    $addToSet: { likes: req.user.id }
+    $addToSet: { likes: req.user._id }
   },{new: true}).exec();
 
   if (!data) return appError(apiState.DATA_NOT_FOUND, next);
