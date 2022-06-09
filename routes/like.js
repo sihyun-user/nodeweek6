@@ -8,7 +8,7 @@ router
   .get(isAuth, 
     /*
       #swagger.tags = ['Like - 按讚']
-      #swagger.description = '取得個人按讚列表 API'
+      #swagger.description = '取得個人按讚貼文名單 API'
       #swagger.security = [{'api_key': ['apiKeyAuth']}]  
       #swagger.responses[200] = { 
         description: '按讚資訊',
@@ -17,6 +17,22 @@ router
     */
     likeControllers.getLikeList
   );
+
+router.get('/follows', isAuth, 
+  /*
+    #swagger.tags = ['follow - 追蹤']
+    #swagger.description = '取得個人追蹤名單 API'
+    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+    #swagger.responses[200] = { 
+      description: '追蹤資訊',
+      schema: { 
+        status: true,
+        message: '追蹤成功'
+      }
+    }
+  */
+  likeControllers.getFollowList
+);
 
 router.post('/follow/:user_id', isAuth, 
   /*

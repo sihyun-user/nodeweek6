@@ -5,7 +5,7 @@ const appSuccess = require('../service/appSuccess');
 const appError = require('../service/appError');
 const apiState = require('../service/apiState');  
 
-// 取得個人按讚列表
+// 取得個人按讚貼文名單
 exports.getLikeList = catchAsync(async(req, res, next) => {
   const data = await Post.find({
     likes: { $in: [req.user._id] }
@@ -13,6 +13,15 @@ exports.getLikeList = catchAsync(async(req, res, next) => {
     path: 'user',
     select: 'name photo'
   }).exec();
+
+  appSuccess({ res, data });
+});
+
+// 取得個人追蹤名單
+exports.getFollowList = catchAsync(async(req, res, next) => {
+  const data = await User.find({
+    _id: req.user._id
+  }, 'following')
 
   appSuccess({ res, data });
 });
