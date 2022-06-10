@@ -36,8 +36,8 @@ const userSchema = new mongoose.Schema(
       select: false
     },
     followers: [
-      {
-        user: { type: mongoose.Schema.ObjectId, ref: 'User' },
+      { 
+        user: { type: mongoose.Schema.ObjectId, ref: 'user' },
         createdAt: {
           type: Date,
           default: Date.now
@@ -45,8 +45,8 @@ const userSchema = new mongoose.Schema(
       }
     ],
     following: [
-      {
-        user: { type: mongoose.Schema.ObjectId, ref: 'User' },
+      { 
+        user: { type: mongoose.Schema.ObjectId, ref: 'user' },
         createdAt: {
           type: Date,
           default: Date.now

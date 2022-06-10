@@ -3,6 +3,8 @@ const router = express.Router();
 const PostControllers = require('../controllers/post');
 const { isAuth } = require('../service/appVerify');
 
+// 動態貼文
+
 router.get('/posts', isAuth, 
   /*
     #swagger.tags = ['Post - 貼文']
@@ -44,7 +46,7 @@ router
   .post(isAuth,
     /*
       #swagger.tags = ['Post - 貼文']
-      #swagger.description = '建立貼文 API'
+      #swagger.description = '新增一則貼文 API'
       #swagger.security = [{'api_key': ['apiKeyAuth']}]
       #swagger.parameters['body'] = {
         in: 'body',
@@ -58,10 +60,7 @@ router
       }
       #swagger.responses[200] = { 
         description: '貼文資訊',
-        schema: {
-          status: true,
-          message: '新增貼文成功'
-        }
+        schema: { $ref: '#/definitions/createPost' }
       }
     */
     PostControllers.createPost
@@ -72,7 +71,7 @@ router
   .get(isAuth,
     /*
       #swagger.tags= ['Post - 貼文']
-      #swagger.description = '取得單筆貼文 API'
+      #swagger.description = '取得一則貼文 API'
       #swagger.security = [{'api_key': ['apiKeyAuth']}]
       #swagger.responses[200] = { 
         description: '貼文資訊',
@@ -122,37 +121,38 @@ router
     PostControllers.deleteOnePost
   );
 
-router.post('/post/:post_id/like', isAuth, 
-  /*
-    #swagger.tags = ['Post - 貼文']
-    #swagger.description = '貼文按讚 API'
-    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
-    #swagger.responses[200] = {
-      description: '貼文資訊',
-      schema: { 
-        status: true,
-        message: '貼文按讚成功'
+router
+  .route('/post/:post_id/like')
+  .post(isAuth, 
+    /*
+      #swagger.tags = ['Post - 貼文']
+      #swagger.description = '貼文按讚 API'
+      #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+      #swagger.responses[200] = {
+        description: '貼文資訊',
+        schema: { 
+          status: true,
+          message: '貼文按讚成功'
+        }
       }
-    }
-  */
-  PostControllers.addPostLike
-);
-
-router.post('/post/:post_id/unlike', isAuth,
-  /*
-    #swagger.tags = ['Post - 貼文']
-    #swagger.description = '取消貼文按讚 API'
-    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
-    #swagger.responses[200] = {
-      description: '貼文資訊',
-      schema: { 
-        status: true,
-        message: '取消貼文按讚成功'
+    */
+    PostControllers.addPostLike
+  )
+  .delete(isAuth,
+    /*
+      #swagger.tags = ['Post - 貼文']
+      #swagger.description = '取消貼文按讚 API'
+      #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+      #swagger.responses[200] = {
+        description: '貼文資訊',
+        schema: { 
+          status: true,
+          message: '取消貼文按讚成功'
+        }
       }
-    }
-  */
-  PostControllers.canclePostLike
-);
+    */
+    PostControllers.canclePostLike
+  );
 
 router.post('/post/:post_id/comment', isAuth, 
   /*
@@ -161,10 +161,29 @@ router.post('/post/:post_id/comment', isAuth,
     #swagger.security = [{'api_key': ['apiKeyAuth']}]  
     #swagger.responses[200] = {
       description: '貼文留言資訊',
-      schema: { $ref: '#/definitions/craetePostComment' }
+      schema: {
+        status: true,
+        message: '貼文留言成功'
+      }
     }
   */
   PostControllers.craetePostComment
+);
+
+router.delete('/post/:post_id/comment/:comment_id', isAuth, 
+  /*
+    #swagger.tags = ['Post - 貼文']
+    #swagger.description = '刪除一則貼文的留言 API'
+    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+    #swagger.responses[200] = {
+      description: '貼文留言資訊',
+      schema: {
+        status: true,
+        message: '刪除貼文留言成功'
+      }
+    }
+  */
+  PostControllers.canclePostComment
 );
 
 module.exports = router

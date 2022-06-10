@@ -29,9 +29,16 @@ exports.isAuth = catchAsync(async(req, res, next) => {
     })
   });
 
-  const currentUser = await User.findById(decoded.id);
+  const data = await User.findById(decoded.id);
+  const { _id, name, email, photo, sex } = data;
+
+  const currentUser = {
+    _id: _id.toString(),
+    name, email, photo, sex
+  }
 
   req.user = currentUser;
+
   next();
 
   // jwt.verify 本身沒有提供 Promise 是 callBack，增加 new Promise 防止阻塞問題
@@ -42,11 +49,7 @@ exports.generateSendJWT = (user, res) => {
     expiresIn: process.env.JWT_EXPIRES_DAY
   });
 
-  user.password = undefined;
-
-  let data = { user, token };
-
-  appSuccess({res, data});
+  return token;
 };
 
 exports.checkId = (objectId) =>  {

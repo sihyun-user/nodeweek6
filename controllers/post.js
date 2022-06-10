@@ -7,13 +7,21 @@ const appError = require('../service/appError');
 const apiState = require('../service/apiState');  
 const { checkId } = require('../service/appVerify');
 
-// 取得所有貼文 API
+// 取得貼文列表 API
 exports.getAllPosts = catchAsync(async(req, res, next) => {
   const query = req.query;
+  let str;
+
+  // 關鍵字檢查
+  if (query.q && /\W|[_]/g.test(query.q)){
+    str = query.q.replace(/\W|_/g, '[$&]');
+  } else {
+    str = query.q
+  }
 
   // 貼文關鍵字搜尋與篩選
   const timeSort = query.timeSort == 'asc' ? 'createdAt' : '-createdAt';
-  const q = query.q !== undefined ? {'content': new RegExp(query.q)} : {};
+  const q = query.q !== undefined ? {'content': new RegExp(str)} : {};
   const data = await Post.find(q).populate({
     path: 'user',
     select: 'name photo'
@@ -21,7 +29,7 @@ exports.getAllPosts = catchAsync(async(req, res, next) => {
     path: 'comments'
   }).sort(timeSort).exec();
 
-  appSuccess({res, data});
+  appSuccess({res, data, message: '取得貼文列表成功'});
 });
 
 // 取得會員貼文 API
@@ -53,11 +61,13 @@ exports.getOnePost = catchAsync(async(req, res, next) => {
   const data = await Post.findById(postId).populate({
     path: 'user',
     select: 'name photo'
+  }).populate({
+    path: 'comments'
   }).exec();
 
   if (!data) return appError(apiState.DATA_NOT_FOUND, next);
 
-  appSuccess({res, data})
+  appSuccess({res, data, message: '取得一則貼文成功'})
 });
 
 // 新增一則貼文 API
@@ -72,7 +82,7 @@ exports.createPost = catchAsync(async(req, res, next) => {
     image
   });
 
-  appSuccess({res, data});
+  appSuccess({res, data, message: '新增一則貼文成功'});
 });
 
 // 編輯一則貼文 API
@@ -94,7 +104,7 @@ exports.updatePost = catchAsync(async(req, res, next) => {
 
   if(!data) return appError(apiState.DATA_NOT_FOUND, next);
 
-  appSuccess({res, message:'編輯此筆貼文成功'})
+  appSuccess({res, message:'編輯一則貼文成功'})
 });
 
 // 刪除一則貼文 API
@@ -110,7 +120,7 @@ exports.deleteOnePost = catchAsync(async(req, res, next) => {
 
   if (!post) return appError(apiState.DATA_NOT_FOUND, next);
   
-  appSuccess({res, message:'刪除此筆貼文成功'});
+  appSuccess({res, message:'刪除一則貼文成功'});
 });
 
 // 新增一則貼文的按讚 API
@@ -162,9 +172,26 @@ exports.craetePostComment = catchAsync(async(req, res, next) => {
     return appError(apiState.ID_ERROR, next);
   };
 
-  const data = await Comment.create({
+  await Comment.create({
     post, user, comment
   });
 
-  appSuccess({ res, data })
+  appSuccess({ res, message: '貼文留言成功' })
+});
+
+// 刪除一則貼文的留言 API
+exports.canclePostComment = catchAsync(async(req, res, next) => {
+  const user = req.user._id;
+  const post =  req.params.post_id;
+
+  // 檢查 ObjectId 型別是否有誤
+  if (post && !checkId(post)) {
+    return appError(apiState.ID_ERROR, next);
+  };
+
+  const data = await Comment.find()
+
+  // await Comment.findByIdAndDelete(post);
+
+  appSuccess({ res, data, message: '刪除貼文留言成功' });
 });

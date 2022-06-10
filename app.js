@@ -17,7 +17,6 @@ const appError = require('./service/appError');
 const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
 const uploadRouter = require('./routes/upload');
-const likeRouter = require('./routes/like');
 
 const app = express();
 
@@ -32,7 +31,6 @@ app.use(cookieParser());
 app.use('/api', userRouter);
 app.use('/api', postRouter);
 app.use('/api', uploadRouter);
-app.use('/api', likeRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // 404 錯誤

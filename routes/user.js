@@ -3,6 +3,8 @@ const router = express.Router();
 const UserControllers = require('../controllers/user');
 const { isAuth } = require('../service/appVerify');
 
+// 會員功能
+
 router.post('/user/signup',
   /*
     #swagger.tags = ['User - 會員']
@@ -21,7 +23,10 @@ router.post('/user/signup',
     }
     #swagger.responses[200] = { 
       description: '註冊資訊',
-      schema: { $ref: '#/definitions/auth' }
+      schema: {
+        status: true,
+        message: '註冊成功，請重新登入'
+      }
     }
   */
   UserControllers.signup
@@ -43,7 +48,7 @@ router.post('/user/login',
     }
     #swagger.responses[200] = { 
       description: '登入資訊',
-      schema: { $ref: '#/definitions/auth' }
+      schema: { $ref: '#/definitions/login' }
     }
   */
   UserControllers.login
@@ -107,10 +112,88 @@ router
       }
       #swagger.responses[200] = { 
         description: '會員資訊',
-        schema: { $ref: '#/definitions/profile' }
+        schema: {
+          status: true,
+          message: '編輯會員資料成功'
+        }
       }
     */
     UserControllers.updateProfile
   )
+
+// 會員按讚追蹤動態
+
+router
+  .route('/user/likes')
+  .get(isAuth, 
+    /*
+      #swagger.tags = ['User - 會員按讚追蹤']
+      #swagger.description = '取得個人按讚貼文名單 API'
+      #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+      #swagger.responses[200] = { 
+        description: '按讚資訊',
+        schema: { $ref: '#/definitions/getLikePostList' }
+      }
+    */
+    UserControllers.getLikePostList
+  );
+
+router.get('/user/follows', isAuth, 
+  /*
+    #swagger.tags = ['User - 會員按讚追蹤']
+    #swagger.description = '取得個人追蹤名單 API'
+    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+    #swagger.responses[200] = { 
+      description: '追蹤資訊',
+      schema: { $ref: '#/definitions/getFollowUserList' }
+    }
+  */
+  UserControllers.getFollowUserList
+);
+
+router.get('/user/comments', isAuth, 
+  /*
+    #swagger.tags = ['User - 會員按讚追蹤']
+    #swagger.description = '取得個人留言貼文名單 API'
+    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+    #swagger.responses[200] = { 
+      description: '留言貼文資訊',
+      schema: { $ref: '#/definitions/getFollowUserList' }
+    }
+  */
+  UserControllers.getCommentPostList
+);
+
+router.post('/user/:user_id/follow', isAuth, 
+  /*
+    #swagger.tags = ['User - 會員按讚追蹤']
+    #swagger.description = '追蹤朋友 API'
+    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+    #swagger.responses[200] = { 
+      description: '追蹤資訊',
+      schema: { 
+        status: true,
+        message: '追蹤成功'
+      }
+    }
+  */
+  UserControllers.followUser
+);
+
+router.post('/user/:user_id/unfollow', isAuth, 
+  /*
+    #swagger.tags = ['User - 會員按讚追蹤']
+    #swagger.description = '取消追蹤朋友 API'
+    #swagger.security = [{'api_key': ['apiKeyAuth']}]  
+    #swagger.responses[200] = { 
+      description: '追蹤資訊',
+      schema: { 
+        status: true,
+        message: '取消追蹤成功'
+      }
+    }
+  */
+  UserControllers.unfollowUser
+);
 
 module.exports = router;

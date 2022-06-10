@@ -41,6 +41,6 @@ postSchema.virtual('comments', {
   localField: '_id'
 });
 
-const Post = mongoose.model('Post', postSchema)
+const Post = mongoose.model('post', postSchema)
 
 module.exports = Post

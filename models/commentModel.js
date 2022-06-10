@@ -36,6 +36,14 @@ commentSchema.pre(/^find/, function(next)  {
   next();
 });
 
+commentSchema.pre(/^find/, function(next)  {
+  this.populate({
+    path: 'post'
+  });
+
+  next();
+});
+
 const Comment = mongoose.model('comment', commentSchema);
 
 module.exports = Comment;
